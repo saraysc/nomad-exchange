@@ -1,0 +1,16 @@
+.header-container {
+  width: 100%;
+  background-color: white;
+  color: #0e2fa4;
+  height: 50px;
+  font-family: "Shadows Into Light Two", cursive;
+}
+
+.header-text-box {
+  justify-content: center;
+  position: relative;
+}
+
+.header-title {
+  margin-top: 10px;
+}

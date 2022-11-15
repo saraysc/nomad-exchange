@@ -4,15 +4,113 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AJAX Project</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Shadows+Into+Light+Two&display=swap" rel="stylesheet">
   <link rel="icon" href="images/favicon.ico">
   <link rel="stylesheet" href="css/reset.css">
   <link rel="stylesheet" href="css/layout.css">
   <link rel="stylesheet" href="css/styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
 </head>
 <body>
   <header>
+    <div class="header-container">
+      <div class="hidden row header-text-box">
+        <h2 class="header-title">Travel Planner</h2>
+      </div>
+    </div>
   </header>
   <main>
+    <div class="main-container">
+      <div class="hidden home no-listing" data-view="no-entries">
+        <div class="row center">
+          <h2 class="listing-title">No Listing Available</h2>
+        </div>
+        <div class="button-container row">
+          <div class="bottom">
+            <button class="new-list-button">Create New<br> Itinerary List</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="create list" data-view="new-list">
+        <div class="row">
+          <h2 class="listing-title">Create New Itinerary List</h2>
+        </div>
+        <form>
+          <label for="date">Date</label>
+          <input type="date" id="date" name="date" required>
+          <label for="time">Time</label>
+          <input type="time" id="time" name="time" required> To
+          <input type="time" id="end-time" name="end-time" required>
+          <input type="text" id="location" name="location" placeholder="Location" required>
+          <input type="text" id="weather" name="weather" placeholder="Weather" required>
+          <input type="text" id="price" name="price" placeholder="Price" required>
+        </form>
+        <div>
+          <button class="new-list-button">Create New<br> Itinerary List</button>
+        </div>
+      </div>
+
+      <div class="hidden" data-view="my-list">
+        <div class="row">
+        </div>
+
+        <div>
+          <button class="add-itinerary-button">Add Itinerary</button>
+        </div>
+
+        <div>
+          <button class="new-list-button">Create New Itinerary List</button>
+        </div>
+      </div>
+
+      <div class="hidden" data-view="add-itinerary">
+        <div class="row">
+          <h2>Add Itinerary</h2>
+        </div>
+        <form>
+          <label for="date">Date</label>
+          <input type="date" id="add-date" name="add-date" required>
+          <label for="time">Time</label>
+          <input type="time" id="add-time" name="add-time" required> To
+          <input type="time" id="end-time-itinerary" name="end-time-itinerary" required>
+          <input type="text" id="location-itinerary" name="location-itinerary" required>
+          <input type="text" id="weather-itinerary" name="weather-itinerary" required>
+          <input type="text" id="price-itinerary" name="price-itinerary" required>
+        </form>
+        <div>
+          <button class="add-itinerary-button">Add Itinerary</button>
+        </div>
+      </div>
+
+      <div class="hidden" data-view="update-delete-itinerary">
+        <div class="delete-container">
+          <div class="row">
+            <h2>Delete Itinerary</h2>
+          </div>
+          <div class="row">
+            <button class="add-itinerary-button">Add Itinerary</button>
+          </div>
+        </div>
+        <div class="update-itinerary">
+          <div class="row">
+            <h2>Update Itinerary</h2>
+          </div>
+          <form class="update-form">
+          </form>
+        </div>
+        <div>
+          <button class="new-list-button">Update Itinerary</button>
+        </div>
+      </div>
+
+    </div>
   </main>
   <script src="js/data.js"></script>
   <script src="js/main.js"></script>

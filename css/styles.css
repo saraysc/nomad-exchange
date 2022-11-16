@@ -17,6 +17,7 @@ body {
 
 .listing-title {
   font-weight: 600;
+  justify-content: center;
 }
 
 .center {
@@ -43,4 +44,42 @@ body {
   font-size: 14px;
   font-weight: 600;
   letter-spacing: 0.5px;
+}
+
+.column {
+  flex-direction: column;
+}
+
+.input-size {
+  width: 500px;
+  height: 30px;
+  margin: 0 auto 40px;
+}
+
+.small-input {
+  width: 138px;
+  height: 30px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.margin-small-input {
+  margin-left: 300px;
+  margin-bottom: 40px;
+}
+
+.margin-top {
+  margin-top: 30px;
+}
+
+input,
+select {
+  border: 1px solid #9f9999;
+  border-radius: 4px;
+  padding-left: 8px;
+}
+
+.font-label {
+  color: #747373;
+  font-weight: 600;
 }

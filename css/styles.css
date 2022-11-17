@@ -5,6 +5,10 @@ body {
     sans-serif;
 }
 
+.hidden {
+  display: none;
+}
+
 .main-container {
   width: 1100px;
   margin: auto;
@@ -82,4 +86,48 @@ select {
 .font-label {
   color: #747373;
   font-weight: 600;
+}
+
+.half-container {
+  display: flex;
+  flex-basis: 50%;
+}
+
+.list-container {
+  width: 350px;
+  height: 120px;
+  background-color: white;
+  box-shadow: 5px 5px #c4c4c4;
+  font-size: 12px;
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+li {
+  list-style: none;
+}
+
+.list-margin {
+  margin-left: 20px;
+}
+
+.time-margin {
+  margin-right: 70px;
+}
+
+.location-margin {
+  margin-right: 47px;
+}
+
+.currency-margin {
+  margin-right: 25px;
+}
+
+.price-margin {
+  position: relative;
+  right: 0;
+  left: 160px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #0e2fa4;
 }

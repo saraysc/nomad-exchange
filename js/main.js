@@ -1,3 +1,4 @@
+var dateControl = document.querySelector('input[type="date"]');
 function save(event) {
   event.preventDefault();
   var entryObject = {
@@ -5,7 +6,8 @@ function save(event) {
     startTime: $submit.elements.time.value,
     endTime: $submit.elements.endTime.value,
     location: $submit.elements.location.value,
-    weather: $submit.elements.weather.value,
+    firstCurrency: $submit.elements.firstCurrency.value,
+    secondCurrency: $submit.elements.secondCurrency.value,
     price: $submit.elements.price.value,
     entryId: data.nextEntryId
   };
@@ -14,6 +16,7 @@ function save(event) {
   data.nextEntryId += 1;
   data.entries.unshift(entryObject);
   $submit.reset();
+
   homePage();
 }
 
@@ -25,17 +28,31 @@ function createPage(event) {
 function homePage(event) {
   $createList.classList.add('hidden');
   $noList.classList.remove('hidden');
+  if (data.entries.length > 0) {
+    $createNewbtn.className = 'button-container row hidden';
+    $addButton.className = 'add-button';
+  }
 }
 
 function newEntry(object) {
-  // var titleDate = document.createElement('p');
+  var listContainer = document.createElement('div');
+  listContainer.className = 'half-container';
+
+  var titleDate = document.createElement('h3');
+  titleDate.textContent = dateControl.value;
+  listContainer.prepend(titleDate);
+
+  var itineraryContainer = document.createElement('div');
   var listItem = document.createElement('li');
+  listItem.className = 'list-container';
 
   var timeRow = document.createElement('div');
+  timeRow.className = 'row list-margin';
   listItem.append(timeRow);
 
   var time = document.createElement('p');
   time.textContent = 'Time';
+  time.className = 'time-margin';
   timeRow.append(time);
   listItem.append(timeRow);
 
@@ -48,9 +65,11 @@ function newEntry(object) {
   timeRow.append(timeValue);
 
   var locationRow = document.createElement('div');
+  locationRow.className = 'row list-margin';
 
   var location = document.createElement('p');
   location.textContent = 'Location';
+  location.className = 'location-margin';
   locationRow.append(location);
   listItem.append(locationRow);
 
@@ -58,33 +77,42 @@ function newEntry(object) {
   locationValue.textContent = object.location;
   locationRow.append(locationValue);
 
-  var weatherRow = document.createElement('div');
+  var conversionRow = document.createElement('div');
+  conversionRow.className = 'row list-margin';
 
-  var weather = document.createElement('p');
-  weather.textContent = 'Total in U$';
-  weatherRow.append(weather);
-  listItem.append(weatherRow);
+  var conversion = document.createElement('p');
+  conversion.textContent = 'Total in USD';
+  conversion.className = 'currency-margin';
+  conversionRow.append(conversion);
+  listItem.append(conversionRow);
 
-  var weatherValue = document.createElement('p');
-  weatherValue.textContent = object.weather;
-  weatherRow.append(weatherValue);
+  var currency1 = document.createElement('p');
+  currency1.textContent = object.firstCurrency;
+  conversionRow.append(currency1);
+
+  var currency2 = document.createElement('p');
+  currency2.textContent = object.firstCurrency;
+  conversionRow.append(currency2);
 
   var price = document.createElement('p');
+  price.className = 'price-margin';
   price.textContent = object.price;
-  weatherRow.append(price);
+  conversionRow.append(price);
 
-  $listTitle.textContent = '';
+  itineraryContainer.prepend(listItem);
+
+  $listTitle.textContent = 'My Itinerary';
   listItem.setAttribute('data-entry-id', object.entryId);
   return listItem;
 }
 
-// function contentLoad(event) {
-//   for (var i = 0; i < data.entries.length; i++) {
-//     var renderedEntry = newEntry(data.entries[i]);
-//     $list.append(renderedEntry);
-//   }
-//   return $list;
-// }
+function contentLoad(event) {
+  for (var i = 0; i < data.entries.length; i++) {
+    var renderedEntry = newEntry(data.entries[i]);
+    $list.append(renderedEntry);
+  }
+  return $list;
+}
 
 var $submit = document.querySelector('form');
 $submit.addEventListener('submit', save);
@@ -98,24 +126,24 @@ var $noList = document.querySelector('.no-listing');
 var $listTitle = document.querySelector('.listing-title');
 
 var $list = document.querySelector('.list');
+
+var $createNewbtn = document.querySelector('.button-container');
+var $addButton = document.querySelector('.add-button');
 // var $item = document.querySelector('.item');
 
-var $firstCurrency = document.getElementById('#firstCurrency');
-var $secondCurrency = document.getElementById('#secondCurrency');
+// var $firstCurrency = document.getElementById('#firstCurrency');
+// var $secondCurrency = document.getElementById('#secondCurrency');
 
-$firstCurrency.addEventListener('change', e => {
-  // log(`e.target`, e.target);
-  var select = e.target;
-  var desc = select.options[select.selectedIndex].text;
-  return desc;
-});
+// $firstCurrency.addEventListener('change', function (event) {
+//   var result = $firstCurrency.value;
+//   return result;
 
-$secondCurrency.addEventListener('change', e => {
-  // log(`e.target`, e.target);
-  var select2 = e.target;
-  var desc2 = select2.options[select2.selectedIndex].text;
-  return desc2;
-});
+// });
+
+// $secondCurrency.addEventListener('change', function (event) {
+//   var output = $secondCurrency.value;
+//   return output;
+// });
 
 var targetUrl = encodeURIComponent('https://www.freeforexapi.com/api/live');
 
@@ -124,6 +152,7 @@ xhr.open('GET', 'https://lfz-cors.herokuapp.com/?url=' + targetUrl);
 xhr.setRequestHeader('token', 'abc123');
 xhr.responseType = 'json';
 xhr.addEventListener('load', function () {
-  // console.log(desc + desc2);
+  // console.log(result + output);
 });
 xhr.send();
+document.addEventListener('DOMContentLoaded', contentLoad);

@@ -123,11 +123,19 @@ li {
   margin-right: 25px;
 }
 
-.price-margin {
+.edit-delete-margin {
   position: relative;
-  right: 0;
-  left: 160px;
   font-size: 14px;
+  margin-left: 171px;
+}
+
+.price-margin {
+  margin-left: 130px;
   font-weight: 600;
   color: #0e2fa4;
+  margin-top: 20px;
+}
+
+a {
+  text-decoration: none;
 }

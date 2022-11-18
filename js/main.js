@@ -40,6 +40,7 @@ function newEntry(object) {
 
   var titleDate = document.createElement('h3');
   titleDate.textContent = dateControl.value;
+  titleDate.className = 'listing-title';
   listContainer.prepend(titleDate);
 
   var itineraryContainer = document.createElement('div');
@@ -99,6 +100,12 @@ function newEntry(object) {
   price.textContent = object.price;
   conversionRow.append(price);
 
+  var editDelete = document.createElement('a');
+  editDelete.setAttribute('href', '#');
+  editDelete.innerHTML = 'Update/Delete Itinerary';
+  editDelete.className = 'edit-delete-margin font-label';
+  listItem.append(editDelete);
+
   itineraryContainer.prepend(listItem);
 
   $listTitle.textContent = 'My Itinerary';
@@ -144,6 +151,8 @@ var $addButton = document.querySelector('.add-button');
 //   var output = $secondCurrency.value;
 //   return output;
 // });
+
+// var dateControl = document.querySelector('input[type="date"]');
 
 var targetUrl = encodeURIComponent('https://www.freeforexapi.com/api/live');
 

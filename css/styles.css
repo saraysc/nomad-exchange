@@ -34,6 +34,12 @@ body {
   height: 80vh;
 }
 
+.edit-create-button {
+  justify-content: center;
+  position: relative;
+  height: 150px;
+}
+
 .bottom {
   position: absolute;
   bottom: 20px;
@@ -88,17 +94,16 @@ select {
   font-weight: 600;
 }
 
-.half-container {
-  display: flex;
+.item {
   flex-basis: 50%;
 }
 
 .list-container {
-  width: 350px;
-  height: 120px;
+  width: 450px;
+  height: 150px;
   background-color: white;
   box-shadow: 5px 5px #c4c4c4;
-  font-size: 12px;
+  font-size: 14px;
   margin-top: 40px;
   margin-bottom: 40px;
 }
@@ -126,11 +131,13 @@ li {
 .edit-delete-margin {
   position: relative;
   font-size: 14px;
-  margin-left: 171px;
+  right: -270px;
+  top: 14px;
 }
 
 .price-margin {
-  margin-left: 130px;
+  position: absolute;
+  right: 10px;
   font-weight: 600;
   color: #0e2fa4;
   margin-top: 20px;
@@ -138,4 +145,34 @@ li {
 
 a {
   text-decoration: none;
+}
+
+.icon {
+  color: black;
+  position: absolute;
+  top: 20px;
+  right: 10px;
+}
+
+.relative-position {
+  position: relative;
+}
+
+.padding-top {
+  padding-top: 8px;
+}
+
+.row-direction {
+  display: inline;
+}
+
+.text-center {
+  margin-left: 220px;
+  margin-top: 30px;
+  width: 100px;
+}
+
+.new-itinerary-margin {
+  margin-left: 180px;
+  margin-top: 70px;
 }

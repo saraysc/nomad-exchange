@@ -17,6 +17,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+      integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+      crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
   <header>
@@ -32,10 +35,19 @@
         <div class="row center">
           <h2 class="listing-title">No Listing Available</h2>
         </div>
-        <div class="item row">
-          <ul class="list">
 
-          </ul>
+        <div class="item row-direction">
+          <div class="date-container text-center">
+            <h3 class="date-title"></h3>
+          </div>
+          <div>
+            <ul class="list">
+
+            </ul>
+          </div>
+          <div class="new-itinerary-margin">
+            <button class="new-list-button">New Itinerary</button>
+          </div>
         </div>
         <div class="button-container row">
           <div class="bottom">
@@ -86,7 +98,7 @@
           </div>
           <input type="text" id="location" class="input-size font-label" name="location" placeholder="Location" required>
 
-          <input type="text" id="price" class="input-size font-label" name="price" placeholder="Price" required>
+          <input type="text" id="price" class="input-size font-label" name="price" placeholder="Price (Only Number)" required>
 
           <div class="row center margin-top">
             <button class="new-list-button">Create New<br> Itinerary List</button>

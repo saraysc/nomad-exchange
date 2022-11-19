@@ -1,17 +1,27 @@
-var dateControl = document.querySelector('input[type="date"]');
-function save(event) {
+var weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+function saveInput(event) {
   event.preventDefault();
+  var datas = event.target.elements.date.value;
+  var convData = new Date(datas);
+  var findDay = weekdays[convData.getDay()];
+  var firstMoney = event.target.elements.firstCurrency.value;
+  var secondMoney = event.target.elements.secondCurrency.value;
   var entryObject = {
-    date: $submit.elements.date.value,
+    date: datas,
     startTime: $submit.elements.time.value,
     endTime: $submit.elements.endTime.value,
     location: $submit.elements.location.value,
-    firstCurrency: $submit.elements.firstCurrency.value,
-    secondCurrency: $submit.elements.secondCurrency.value,
+    firstCurrency: firstMoney,
+    secondCurrency: secondMoney,
     price: $submit.elements.price.value,
-    entryId: data.nextEntryId
+    entryId: data.nextEntryId,
+    currencies: (firstMoney + secondMoney).toUpperCase(),
+    weekDay: findDay,
+    totalUsd: data.rate * $submit.elements.price.value
   };
   var renderedEntry = newEntry(entryObject);
+  data.currencyRate = entryObject.currencies;
   $list.prepend(renderedEntry);
   data.nextEntryId += 1;
   data.entries.unshift(entryObject);
@@ -35,20 +45,16 @@ function homePage(event) {
 }
 
 function newEntry(object) {
-  var listContainer = document.createElement('div');
-  listContainer.className = 'half-container';
-
-  var titleDate = document.createElement('h3');
-  titleDate.textContent = dateControl.value;
-  titleDate.className = 'listing-title';
-  listContainer.prepend(titleDate);
-
+  if (!$dateTitle.textContent) {
+    $dateTitle.className = 'date-title';
+    $dateTitle.textContent = object.date + ' ' + object.weekDay;
+  }
   var itineraryContainer = document.createElement('div');
   var listItem = document.createElement('li');
   listItem.className = 'list-container';
 
   var timeRow = document.createElement('div');
-  timeRow.className = 'row list-margin';
+  timeRow.className = 'row list-margin padding-top relative-position';
   listItem.append(timeRow);
 
   var time = document.createElement('p');
@@ -57,13 +63,13 @@ function newEntry(object) {
   timeRow.append(time);
   listItem.append(timeRow);
 
-  var heartIcon = document.createElement('i');
-  heartIcon.className = 'fa-light fa-heart';
-  timeRow.append(heartIcon);
-
   var timeValue = document.createElement('p');
   timeValue.textContent = object.startTime + ' ~ ' + object.endTime;
   timeRow.append(timeValue);
+
+  var heartIcon = document.createElement('i');
+  heartIcon.className = 'far fa-heart fa-xl icon';
+  timeRow.append(heartIcon);
 
   var locationRow = document.createElement('div');
   locationRow.className = 'row list-margin';
@@ -79,7 +85,7 @@ function newEntry(object) {
   locationRow.append(locationValue);
 
   var conversionRow = document.createElement('div');
-  conversionRow.className = 'row list-margin';
+  conversionRow.className = 'row list-margin relative-position';
 
   var conversion = document.createElement('p');
   conversion.textContent = 'Total in USD';
@@ -87,17 +93,13 @@ function newEntry(object) {
   conversionRow.append(conversion);
   listItem.append(conversionRow);
 
-  var currency1 = document.createElement('p');
-  currency1.textContent = object.firstCurrency;
-  conversionRow.append(currency1);
-
   var currency2 = document.createElement('p');
-  currency2.textContent = object.firstCurrency;
+  currency2.textContent = '$' + (Number(object.totalUsd).toFixed(2));
   conversionRow.append(currency2);
 
   var price = document.createElement('p');
   price.className = 'price-margin';
-  price.textContent = object.price;
+  price.textContent = object.firstCurrency.toUpperCase() + ' ' + object.price;
   conversionRow.append(price);
 
   var editDelete = document.createElement('a');
@@ -106,9 +108,10 @@ function newEntry(object) {
   editDelete.className = 'edit-delete-margin font-label';
   listItem.append(editDelete);
 
-  itineraryContainer.prepend(listItem);
+  itineraryContainer.append(listItem);
 
   $listTitle.textContent = 'My Itinerary';
+  $createNewbtn.className = 'row edit-create-button';
   listItem.setAttribute('data-entry-id', object.entryId);
   return listItem;
 }
@@ -122,7 +125,9 @@ function contentLoad(event) {
 }
 
 var $submit = document.querySelector('form');
-$submit.addEventListener('submit', save);
+$submit.addEventListener('submit', saveInput);
+
+document.addEventListener('DOMContentLoaded', contentLoad);
 
 var $createButton = document.querySelector('.new-list-button');
 $createButton.addEventListener('click', createPage);
@@ -131,37 +136,9 @@ var $createList = document.querySelector('.create');
 var $noList = document.querySelector('.no-listing');
 
 var $listTitle = document.querySelector('.listing-title');
+var $dateTitle = document.querySelector('.date-title');
 
 var $list = document.querySelector('.list');
 
 var $createNewbtn = document.querySelector('.button-container');
 var $addButton = document.querySelector('.add-button');
-// var $item = document.querySelector('.item');
-
-// var $firstCurrency = document.getElementById('#firstCurrency');
-// var $secondCurrency = document.getElementById('#secondCurrency');
-
-// $firstCurrency.addEventListener('change', function (event) {
-//   var result = $firstCurrency.value;
-//   return result;
-
-// });
-
-// $secondCurrency.addEventListener('change', function (event) {
-//   var output = $secondCurrency.value;
-//   return output;
-// });
-
-// var dateControl = document.querySelector('input[type="date"]');
-
-var targetUrl = encodeURIComponent('https://www.freeforexapi.com/api/live');
-
-var xhr = new XMLHttpRequest();
-xhr.open('GET', 'https://lfz-cors.herokuapp.com/?url=' + targetUrl);
-xhr.setRequestHeader('token', 'abc123');
-xhr.responseType = 'json';
-xhr.addEventListener('load', function () {
-  // console.log(result + output);
-});
-xhr.send();
-document.addEventListener('DOMContentLoaded', contentLoad);

@@ -31,7 +31,7 @@ body {
 .button-container {
   justify-content: center;
   position: relative;
-  height: 80vh;
+  height: 60vh;
 }
 
 .edit-create-button {
@@ -54,6 +54,7 @@ body {
   font-size: 14px;
   font-weight: 600;
   letter-spacing: 0.5px;
+  width: 160px;
 }
 
 .column {

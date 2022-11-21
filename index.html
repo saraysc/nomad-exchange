@@ -30,31 +30,32 @@
     </div>
   </header>
   <main>
-    <div class="main-container" data-view="view-list">
-      <div class="home no-listing" data-view="no-entries">
-        <div class="row center">
-          <h2 class="listing-title">No Listing Available</h2>
-        </div>
+    <div class="main-container">
+      <div class="" data-view="view-list">
+        <div class="home no-listing">
+          <div class="row center">
+            <h2 class="listing-title">No Listing Available</h2>
+          </div>
 
-        <div class="item row-direction">
-          <div class="date-container text-center">
-            <h3 class="date-title"></h3>
-          </div>
-          <div>
-            <ul class="list">
+          <div class="item row-direction">
+            <div class="date-container text-center">
+              <h3 class="date-title"></h3>
+            </div>
+            <div>
+              <ul class="list">
 
-            </ul>
+              </ul>
+            </div>
+            <div class="new-itinerary-margin hidden">
+              <button class="new-list-button new-itinerary">New Itinerary</button>
+            </div>
           </div>
-          <div class="new-itinerary-margin">
-            <button class="new-list-button">New Itinerary</button>
+          <div class="button-container row">
+            <div class="bottom">
+              <button class="new-list-button create-button">Create New Itinerary List</button>
+            </div>
           </div>
         </div>
-        <div class="button-container row">
-          <div class="bottom">
-            <button class="new-list-button">Create New<br> Itinerary List</button>
-          </div>
-        </div>
-
         <!-- <div class="add-button hidden">
           <div class="row center margin-top itinerary-button">
             <button class="new-list-button">Add New Itinerary</button>
@@ -62,52 +63,52 @@
         </div> -->
 
       </div>
+      <div data-view="new-list" class="hidden">
+        <div class="create list">
+          <div class="row listing-title">
+            <h2 class="title-new">Create New Itinerary List</h2>
+          </div>
+          <form class="row column center margin-top form">
+            <div class="margin-small-input">
+              <label for="date" class="font-label">Date</label>
+              <input type="date" id="date" class="small-input date font-label" name="date" required>
+            </div>
+            <div class="margin-small-input">
+              <label for="time" class="font-label">Time</label>
+              <input type="time" id="time" class="small-input font-label" name="time" required><span class="font-label"> To</span>
+              <input type="time" id="endTime" class="small-input font-label" name="endTime" required>
+            </div>
+            <div class="margin-small-input">
+              <label for="currency" class="font-label">Currency Exchange</label>
+              <!--<input type="text" id="weather" class="input-size font-label" name="weather" placeholder="Weather" required> -->
+              <select name="firstCurrency" class="small-input font-label" id="firstCurrency" required>
+                <option value="eur">EUR</option>
+                <option value="gbp">GBP</option>
+                <option value="usd">USD</option>
+                <option value="aud">AUD</option>
+                <option value="nzd">NZD</option>
+              </select>
+              <span class="font-label">To</span>
+              <select name="secondCurrency" class="small-input font-label" id="secondCurrency" required>
+                <option value="eur">EUR</option>
+                <option value="gbp">GBP</option>
+                <option value="usd">USD</option>
+                <option value="aud">AUD</option>
+                <option value="nzd">NZD</option>
+              </select>
+            </div>
+            <input type="text" id="location" class="input-size font-label" name="location" placeholder="Location" required>
 
-      <div class="hidden create list" data-view="new-list">
-        <div class="row listing-title">
-          <h2>Create New Itinerary List</h2>
+            <input type="number" id="price" class="input-size font-label" name="price" placeholder="Price (Only Number)" required>
+
+            <div class="row center margin-top">
+              <button class="new-list-button final-create">Create New<br> Itinerary List</button>
+            </div>
+
+          </form>
+
         </div>
-        <form class="row column center margin-top form">
-          <div class="margin-small-input">
-            <label for="date" class="font-label">Date</label>
-            <input type="date" id="date" class="small-input date font-label" name="date" required>
-          </div>
-          <div class="margin-small-input">
-            <label for="time" class="font-label">Time</label>
-            <input type="time" id="time" class="small-input font-label" name="time" required><span class="font-label"> To</span>
-            <input type="time" id="endTime" class="small-input font-label" name="endTime" required>
-          </div>
-          <div class="margin-small-input">
-            <label for="currency" class="font-label">Currency Exchange</label>
-            <!--<input type="text" id="weather" class="input-size font-label" name="weather" placeholder="Weather" required> -->
-            <select name="firstCurrency" class="small-input font-label" id="firstCurrency" required>
-              <option value="eur">EUR</option>
-              <option value="gbp">GBP</option>
-              <option value="usd">USD</option>
-              <option value="aud">AUD</option>
-              <option value="nzd">NZD</option>
-            </select>
-            <span class="font-label">To</span>
-            <select name="secondCurrency" class="small-input font-label" id="secondCurrency" required>
-              <option value="eur">EUR</option>
-              <option value="gbp">GBP</option>
-              <option value="usd">USD</option>
-              <option value="aud">AUD</option>
-              <option value="nzd">NZD</option>
-            </select>
-          </div>
-          <input type="text" id="location" class="input-size font-label" name="location" placeholder="Location" required>
-
-          <input type="text" id="price" class="input-size font-label" name="price" placeholder="Price (Only Number)" required>
-
-          <div class="row center margin-top">
-            <button class="new-list-button">Create New<br> Itinerary List</button>
-          </div>
-
-        </form>
-
       </div>
-
       <!-- <div class="hidden" data-view="my-list">
         <div class="row">
         </div>

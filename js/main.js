@@ -25,14 +25,21 @@ function saveInput(event) {
     currencies: (firstMoney + secondMoney).toUpperCase(),
     weekDay: findDay
   };
-  getRate(entryObject);
-
-  data.nextEntryId += 1;
-  data.entries.unshift(entryObject);
-  $submit.reset();
-
+  if (data.editing === null) {
+    getRate(entryObject);
+    data.dates.push(entryObject.date);
+    data.nextEntryId += 1;
+    data.entries.unshift(entryObject);
+    $submit.reset();
+  } else {
+    event.preventDefault();
+    data.editing.title = $submit.elements.title.value;
+    data.editing.photoUrl = $submit.elements.photoUrl.value;
+    data.editing.text = $submit.elements.notes.value;
+    var $nodeToReplace = document.querySelector(`li[data-entry-id="${data.editing.entryId}"]`);
+    $nodeToReplace.replaceWith(newEntry(data.editing));
+  }
   viewSwap('view-list');
-
 }
 
 function viewSwap(string) {
@@ -43,6 +50,9 @@ function viewSwap(string) {
     } else {
       $dataViews[i].className = 'hidden';
     }
+    if (string === 'view-list') {
+      data.editing = null;
+    }
   }
 }
 
@@ -50,6 +60,7 @@ function newEntry(object) {
 
   if ($dateTitle.textContent === '') {
     $dateTitle.className = 'date-title';
+
     $dateTitle.textContent = object.date + ' ' + object.weekDay;
     $dateTitle.setAttribute('current-date', object.date);
   }
@@ -111,6 +122,7 @@ function newEntry(object) {
   editDelete.setAttribute('href', '#');
   editDelete.innerHTML = 'Update/Delete Itinerary';
   editDelete.className = 'edit-delete-margin font-label';
+  editDelete.setAttribute('link-id', object.entryId);
   listItem.append(editDelete);
 
   itineraryContainer.append(listItem);
@@ -133,8 +145,12 @@ function contentLoad(event) {
 function newItinerary(event) {
   viewSwap('new-list');
   $newTitle.textContent = 'Add Itinerary';
-  // $submit.elements.date.value = event.target.closest('ul').getAttribute('current-date');
+  $submit.elements.date.value = event.target.closest('ul').getAttribute('current-date');
   $finalCreateBtn.textContent = 'Add Itinerary';
+}
+
+function editDelete() {
+  viewSwap('new-list');
 }
 
 var $submit = document.querySelector('form');
@@ -163,6 +179,9 @@ var $newTitle = document.querySelector('.title-new');
 var $finalCreateBtn = document.querySelector('.final-create');
 
 var $newItineraryContainer = document.querySelector('.new-itinerary-margin');
+
+var $updateDeleteLink = document.querySelectorAll('[link-id]');
+$updateDeleteLink.addEventListener('click', editDelete);
 
 function getRate(entryObject) {
   var targetUrl = encodeURIComponent('https://www.freeforexapi.com/api/live?pairs=' + data.currencyRate);

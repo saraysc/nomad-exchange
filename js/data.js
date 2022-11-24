@@ -14,4 +14,5 @@ if (previousDataJSON !== null) {
 window.addEventListener('beforeunload', event => {
   var dataJSON = JSON.stringify(data);
   localStorage.setItem('ajax-storage', dataJSON);
+  // localStorage.clear();
 });

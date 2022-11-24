@@ -21,7 +21,6 @@ body {
 
 .listing-title {
   font-weight: 600;
-  justify-content: center;
 }
 
 .center {
@@ -29,13 +28,10 @@ body {
 }
 
 .button-container {
-  justify-content: center;
-  position: relative;
   height: 60vh;
 }
 
 .edit-create-button {
-  justify-content: center;
   position: relative;
   height: 150px;
 }
@@ -171,6 +167,7 @@ a {
   margin-left: 220px;
   margin-top: 30px;
   width: 100px;
+  text-align: center;
 }
 
 .new-itinerary-margin {

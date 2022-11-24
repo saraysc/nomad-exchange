@@ -32,40 +32,33 @@
   <main>
     <div class="main-container">
       <div class="" data-view="view-list">
-        <div class="home no-listing">
-          <div class="row center">
-            <h2 class="listing-title">No Listing Available</h2>
+        <div class="row center">
+          <h2 class="listing-title center">No Listing Available</h2>
+        </div>
+
+        <div class="item row-direction">
+          <div class="text-center"> <!--date-container-->
+            <h3 class="date-title"></h3>
           </div>
 
-          <div class="item row-direction">
-            <div class="date-container text-center">
-              <h3 class="date-title"></h3>
-            </div>
-            <div>
-              <ul class="list">
+          <ul class="list">
+          </ul>
 
-              </ul>
-            </div>
-            <div class="new-itinerary-margin hidden">
-              <button class="new-list-button new-itinerary">New Itinerary</button>
-            </div>
-          </div>
-          <div class="button-container row">
-            <div class="bottom">
-              <button class="new-list-button create-button">Create New Itinerary List</button>
-            </div>
+          <div class="new-itinerary-margin hidden">
+            <button class="new-list-button new-itinerary">New Itinerary</button>
           </div>
         </div>
-        <!-- <div class="add-button hidden">
-          <div class="row center margin-top itinerary-button">
-            <button class="new-list-button">Add New Itinerary</button>
+        <div class="button-container row">
+          <div class="bottom">
+            <button class="new-list-button create-button">Create New Itinerary List</button>
           </div>
-        </div> -->
+
+        </div>
 
       </div>
       <div data-view="new-list" class="hidden">
-        <div class="create list">
-          <div class="row listing-title">
+        <div class="list">
+          <div class="row listing-title center">
             <h2 class="title-new">Create New Itinerary List</h2>
           </div>
           <form class="row column center margin-top form">
@@ -109,49 +102,18 @@
 
         </div>
       </div>
-      <!-- <div class="hidden" data-view="my-list">
-        <div class="row">
-        </div>
 
-        <div>
-          <button class="add-itinerary-button">Add Itinerary</button>
-        </div>
-
-        <div>
-          <button class="new-list-button">Create New Itinerary List</button>
-        </div>
-      </div>
-
-      <div class="hidden" data-view="add-itinerary">
-        <div class="row">
-          <h2>Add Itinerary</h2>
-        </div>
-        <form>
-          <label for="date">Date</label>
-          <input type="date" id="add-date" name="add-date" required>
-          <label for="time">Time</label>
-          <input type="time" id="add-time" name="add-time" required> To
-          <input type="time" id="end-time-itinerary" name="end-time-itinerary" required>
-          <input type="text" id="location-itinerary" name="location-itinerary" required>
-          <input type="text" id="weather-itinerary" name="weather-itinerary" required>
-          <input type="text" id="price-itinerary" name="price-itinerary" required>
-        </form>
-        <div>
-          <button class="add-itinerary-button">Add Itinerary</button>
-        </div>
-      </div>
-
-      <div class="hidden" data-view="update-delete-itinerary">
+      <!-- <div class="hidden" data-view="update-delete-itinerary">
         <div class="delete-container">
           <div class="row">
             <h2>Delete Itinerary</h2>
           </div>
           <div class="row">
-            <button class="add-itinerary-button">Add Itinerary</button>
+            <button class="add-itinerary-button">Delete Itinerary</button>
           </div>
         </div>
-        <div class="update-itinerary">
-          <div class="row">
+         <div class="update-itinerary">
+           <div class="row">
             <h2>Update Itinerary</h2>
           </div>
           <form class="update-form">

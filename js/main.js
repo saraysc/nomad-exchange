@@ -3,13 +3,18 @@ var weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'
 function saveInput(event) {
   event.preventDefault();
   var datas = event.target.elements.date.value;
-  var convData = new Date(datas);
+  var [year, month, day] = datas.split('-');
+  var finalDate = [month, day, year].join('-');
+  var convData = new Date(finalDate);
   var findDay = weekdays[convData.getDay()];
+
   var firstMoney = event.target.elements.firstCurrency.value;
   var secondMoney = event.target.elements.secondCurrency.value;
   var priceInt = parseInt($submit.elements.price.value);
+
+  data.currencyRate = (firstMoney + secondMoney).toUpperCase();
   var entryObject = {
-    date: datas,
+    date: finalDate,
     startTime: $submit.elements.time.value,
     endTime: $submit.elements.endTime.value,
     location: $submit.elements.location.value,
@@ -18,12 +23,10 @@ function saveInput(event) {
     price: priceInt,
     entryId: data.nextEntryId,
     currencies: (firstMoney + secondMoney).toUpperCase(),
-    weekDay: findDay,
-    totalUsd: data.rates * priceInt
+    weekDay: findDay
   };
-  var renderedEntry = newEntry(entryObject);
-  data.currencyRate = entryObject.currencies;
-  $list.prepend(renderedEntry);
+  getRate(entryObject);
+
   data.nextEntryId += 1;
   data.entries.unshift(entryObject);
   $submit.reset();
@@ -31,20 +34,6 @@ function saveInput(event) {
   viewSwap('view-list');
 
 }
-
-// function createPage(event) {
-//   $createList.classList.remove('hidden');
-//   $noList.classList.add('hidden');
-// }
-
-// function homePage(event) {
-//   $createList.classList.add('hidden');
-//   $noList.classList.remove('hidden');
-//   if (data.entries.length > 0) {
-//     $createNewbtn.className = 'button-container row hidden';
-//     $addButton.className = 'add-button';
-//   }
-// }
 
 function viewSwap(string) {
   var $dataViews = document.querySelectorAll('[data-view]');
@@ -128,7 +117,7 @@ function newEntry(object) {
 
   $listTitle.textContent = 'My Itinerary';
   $newItineraryContainer.className = 'new-itinerary-margin';
-  $createNewbtn.className = 'row edit-create-button';
+  $createNewbtn.className = 'row edit-create-button center';
   listItem.setAttribute('data-entry-id', object.entryId);
   return listItem;
 }
@@ -160,16 +149,12 @@ $createButton.addEventListener('click', function (event) {
   $newTitle.textContent = 'Create New Itinerary List';
 });
 
-// var $createList = document.querySelector('.create');
-// var $noList = document.querySelector('.no-listing');
-
 var $listTitle = document.querySelector('.listing-title');
 var $dateTitle = document.querySelector('.date-title');
 
 var $list = document.querySelector('.list');
 
 var $createNewbtn = document.querySelector('.button-container');
-// var $addButton = document.querySelector('.add-button');
 
 var $newItineraryBtn = document.querySelector('.new-itinerary');
 $newItineraryBtn.addEventListener('click', newItinerary);
@@ -179,17 +164,20 @@ var $finalCreateBtn = document.querySelector('.final-create');
 
 var $newItineraryContainer = document.querySelector('.new-itinerary-margin');
 
-var targetUrl = encodeURIComponent('https://www.freeforexapi.com/api/live?pairs=' + data.currencyRate.toUpperCase());
+function getRate(entryObject) {
+  var targetUrl = encodeURIComponent('https://www.freeforexapi.com/api/live?pairs=' + data.currencyRate);
 
-var xhr = new XMLHttpRequest();
-xhr.open('GET', 'https://lfz-cors.herokuapp.com/?url=' + targetUrl);
-xhr.setRequestHeader('token', 'abc123');
-xhr.responseType = 'json';
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', 'https://lfz-cors.herokuapp.com/?url=' + targetUrl);
+  xhr.setRequestHeader('token', 'abc123');
+  xhr.responseType = 'json';
+  function onLoad(event) {
+    data.rates = xhr.response.rates[data.currencyRate].rate;
+    entryObject.totalUsd = data.rates * entryObject.price;
+    var renderedEntry = newEntry(entryObject);
+    $list.prepend(renderedEntry);
+  }
+  xhr.addEventListener('load', onLoad);
 
-xhr.addEventListener('load', onLoad);
-function onLoad(event) {
-
-  data.rates = xhr.response.rates[data.currencyRate.toUpperCase()].rate;
-
+  xhr.send();
 }
-xhr.send();

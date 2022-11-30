@@ -25,19 +25,14 @@ function saveInput(event) {
     currencies: (firstMoney + secondMoney).toUpperCase(),
     weekDay: findDay
   };
-  if (data.editing === null) {
-    getRate(entryObject);
-    data.dates.push(entryObject.date);
-    data.nextEntryId += 1;
-    data.entries.unshift(entryObject);
-    $submit.reset();
-  } else {
-    event.preventDefault();
-    data.editing.title = $submit.elements.title.value;
-    data.editing.photoUrl = $submit.elements.photoUrl.value;
-    data.editing.text = $submit.elements.notes.value;
-    var $nodeToReplace = document.querySelector(`li[data-entry-id="${data.editing.entryId}"]`);
-    $nodeToReplace.replaceWith(newEntry(data.editing));
+  // data.dates.unshift(entryObject.date);
+  getRate(entryObject);
+  data.nextEntryId += 1;
+  data.entries.unshift(entryObject);
+  $submit.reset();
+
+  if (!data.dates[entryObject.date]) {
+    data.dates[entryObject.date] = true;
   }
   viewSwap('view-list');
 }
@@ -85,6 +80,8 @@ function newEntry(object) {
 
   var heartIcon = document.createElement('i');
   heartIcon.className = 'far fa-heart fa-xl icon';
+  heartIcon.setAttribute('icon', object.entryId);
+  // data.heart.push(heartIcon);
   timeRow.append(heartIcon);
 
   var locationRow = document.createElement('div');
@@ -145,16 +142,62 @@ function contentLoad(event) {
 function newItinerary(event) {
   viewSwap('new-list');
   $newTitle.textContent = 'Add Itinerary';
-  $submit.elements.date.value = event.target.closest('ul').getAttribute('current-date');
   $finalCreateBtn.textContent = 'Add Itinerary';
+  $dateInput.disabled = true;
+}
+
+// function clickedIcon(event) {
+//   for (var i = 0; i < $icons.length; i++) {
+//     if ($icons[i] === (event.target.closest('i'))) {
+//       $icons[i].className = 'fas fa-heart fa-xl icon';
+//     }
+//   }
+// }
+
+function handleEditSubmit(event) { // handles the submit event for editing an entry
+  event.preventDefault();
+  data.editing.date = event.target.elements.date.value;
+  data.editing.time = $submit.elements.time.value;
+  data.editing.endTime = $submit.elements.endTime.value;
+  data.editing.currency = event.target.elements.firstCurrency.value;
+  data.editing.location = $submit.elements.location.value;
+  data.editing.price = $submit.elements.price.value;
+  var $nodeToReplace = document.querySelector(`li[data-entry-id="${data.editing.entryId}"]`);
+  $nodeToReplace.replaceWith(newEntry(data.editing));
+  viewSwap('view-list');
+  // data.editing = null;
 }
 
 function editDelete() {
+  if (event.target.tagName !== 'A') {
+    return;
+  }
+  if (event.target && event.target.tagName === 'A') {
+    for (let i = 0; i < data.entries.length; i++) { // loop through data entries and find matching entry id
+      if (data.entries[i].entryId === parseInt(event.target.closest('li').getAttribute('data-entry-id'))) {
+        data.editing = data.entries[i];
+      }
+    }
+  }
   viewSwap('new-list');
+  $newTitle.textContent = 'Edit Entry';
+  $finalCreateBtn.textContent = 'Edit Itinerary';
+  event.target.elements.date.value = data.editing.date;
+  $submit.elements.time.value = data.editing.time;
+  $submit.elements.endTime.value = data.editing.endTime;
+  event.target.elements.firstCurrency.value = data.editing.currency;
+  $submit.elements.location.value = data.editing.location;
+  $submit.elements.price.value = data.editing.price;
 }
 
 var $submit = document.querySelector('form');
-$submit.addEventListener('submit', saveInput);
+$submit.addEventListener('submit', function (event) {
+  if (data.editing) {
+    return handleEditSubmit(event);
+  } else {
+    return saveInput(event);
+  }
+});
 
 document.addEventListener('DOMContentLoaded', contentLoad);
 
@@ -180,8 +223,13 @@ var $finalCreateBtn = document.querySelector('.final-create');
 
 var $newItineraryContainer = document.querySelector('.new-itinerary-margin');
 
-var $updateDeleteLink = document.querySelectorAll('[link-id]');
-$updateDeleteLink.addEventListener('click', editDelete);
+var $dateInput = document.getElementById('date');
+
+var $ul = document.querySelector('ul');
+$ul.addEventListener('click', editDelete);
+
+// var $icons = document.querySelectorAll('i');
+// $icons.addEventListener('click', clickedIcon);
 
 function getRate(entryObject) {
   var targetUrl = encodeURIComponent('https://www.freeforexapi.com/api/live?pairs=' + data.currencyRate);

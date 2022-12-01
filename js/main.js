@@ -30,11 +30,11 @@ function saveInput(event) {
   data.nextEntryId += 1;
   data.entries.unshift(entryObject);
   $submit.reset();
-
-  if (!data.dates[entryObject.date]) {
-    data.dates[entryObject.date] = true;
-  }
   viewSwap('view-list');
+  if (!data.dates[entryObject.date]) {
+    data.dates.push(entryObject.date);
+  }
+
 }
 
 function viewSwap(string) {
@@ -70,7 +70,7 @@ function newEntry(object) {
 
   var time = document.createElement('p');
   time.textContent = 'Time';
-  time.className = 'time-margin';
+  time.className = 'margin-right';
   timeRow.append(time);
   listItem.append(timeRow);
 
@@ -107,7 +107,7 @@ function newEntry(object) {
   listItem.append(conversionRow);
 
   var currency2 = document.createElement('p');
-  currency2.textContent = '$' + (Number(object.totalUsd).toFixed(2));
+  currency2.textContent = '$' + (Number(data.rates * object.price).toFixed(2));
   conversionRow.append(currency2);
 
   var price = document.createElement('p');
@@ -143,23 +143,21 @@ function newItinerary(event) {
   viewSwap('new-list');
   $newTitle.textContent = 'Add Itinerary';
   $finalCreateBtn.textContent = 'Add Itinerary';
+  $submit.elements.date.value = data.editing.date;
   $dateInput.disabled = true;
+  // viewSwap('view-list');
 }
 
 // function clickedIcon(event) {
-//   for (var i = 0; i < $icons.length; i++) {
-//     if ($icons[i] === (event.target.closest('i'))) {
-//       $icons[i].className = 'fas fa-heart fa-xl icon';
-//     }
-//   }
+//   heartIcon.className = 'far fa-heart fa-xl icon';
 // }
 
 function handleEditSubmit(event) { // handles the submit event for editing an entry
   event.preventDefault();
-  data.editing.date = event.target.elements.date.value;
-  data.editing.time = $submit.elements.time.value;
+  data.editing.date = $submit.elements.date.value;
+  data.editing.startTime = $submit.elements.time.value;
   data.editing.endTime = $submit.elements.endTime.value;
-  data.editing.currency = event.target.elements.firstCurrency.value;
+  data.editing.firstCurrency = event.target.elements.firstCurrency.value;
   data.editing.location = $submit.elements.location.value;
   data.editing.price = $submit.elements.price.value;
   var $nodeToReplace = document.querySelector(`li[data-entry-id="${data.editing.entryId}"]`);
@@ -169,6 +167,14 @@ function handleEditSubmit(event) { // handles the submit event for editing an en
 }
 
 function editDelete() {
+  if (event.target.tagName === 'I') {
+    const element = document.querySelectorAll('i');
+    for (let i = 0; i < element.length; i++) {
+      if (parseInt(event.target.closest('i').getAttribute('icon')) === parseInt(element[i].getAttribute('icon'))) {
+        element[i].className = 'fas fa-heart fa-xl icon';
+      }
+    }
+  }
   if (event.target.tagName !== 'A') {
     return;
   }
@@ -179,15 +185,19 @@ function editDelete() {
       }
     }
   }
+
   viewSwap('new-list');
-  $newTitle.textContent = 'Edit Entry';
+
+  $newTitle.textContent = 'Edit/Delete Entry';
+
   $finalCreateBtn.textContent = 'Edit Itinerary';
-  event.target.elements.date.value = data.editing.date;
-  $submit.elements.time.value = data.editing.time;
+  $submit.elements.date.value = data.editing.date;
+  $submit.elements.time.value = data.editing.startTime;
   $submit.elements.endTime.value = data.editing.endTime;
-  event.target.elements.firstCurrency.value = data.editing.currency;
+  $submit.elements.firstCurrency.value = data.editing.firstCurrency;
   $submit.elements.location.value = data.editing.location;
   $submit.elements.price.value = data.editing.price;
+  $deleteContainer.classList.remove('hidden');
 }
 
 var $submit = document.querySelector('form');
@@ -200,12 +210,16 @@ $submit.addEventListener('submit', function (event) {
 });
 
 document.addEventListener('DOMContentLoaded', contentLoad);
+var $deleteContainer = document.querySelector('.delete-container');
 
 var $createButton = document.querySelector('.create-button');
 $createButton.addEventListener('click', function (event) {
+
   viewSwap('new-list');
+
   $finalCreateBtn.textContent = 'Create New\r\nItinerary List';
   $newTitle.textContent = 'Create New Itinerary List';
+
 });
 
 var $listTitle = document.querySelector('.listing-title');
@@ -228,9 +242,16 @@ var $dateInput = document.getElementById('date');
 var $ul = document.querySelector('ul');
 $ul.addEventListener('click', editDelete);
 
-// var $icons = document.querySelectorAll('i');
-// $icons.addEventListener('click', clickedIcon);
+var $cancelBtn = document.querySelector('.cancel-btn');
+$cancelBtn.addEventListener('click', viewSwap('view-list'));
 
+// var allInputs = document.querySelectorAll('input');
+// function (event) {
+//   // for (var i = 0; i < allInputs.length; i++) {
+//   //   allInputs[i].removeAttribute('required');
+//   // }
+//   viewSwap('[view-list]');
+// });
 function getRate(entryObject) {
   var targetUrl = encodeURIComponent('https://www.freeforexapi.com/api/live?pairs=' + data.currencyRate);
 

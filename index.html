@@ -57,10 +57,25 @@
 
       </div>
       <div data-view="new-list" class="hidden">
+
+
         <div class="list">
-          <div class="row listing-title center">
+
+          <section class="delete-container hidden">
+            <div class="row center ">
+              <h2 class="margin-top">Delete Itinerary</h2>
+            </div>
+            <div class="row center">
+              <button class="new-list-button margin-top">Delete Itinerary</button>
+            </div>
+          </section>
+
+          <div class="row listing-title margin-top center">
             <h2 class="title-new">Create New Itinerary List</h2>
           </div>
+
+
+
           <form class="row column center margin-top form">
             <div class="margin-small-input">
               <label for="date" class="font-label">Date</label>
@@ -89,18 +104,25 @@
             <input type="text" id="location" class="input-size font-label" name="location" placeholder="Location" required>
 
             <input type="number" id="price" class="input-size font-label" name="price" placeholder="Price (Only Number)" required>
-
-            <div class="row center margin-top">
-              <button class="new-list-button final-create">Create New<br> Itinerary List</button>
+            <div class="row center">
+              <div class="row margin-top margin-right">
+                <button class="new-list-button cancel">Cancel</button>
+              </div>
+              <div class="row margin-top">
+                <button class="new-list-button final-create">Create New<br> Itinerary List</button>
+              </div>
             </div>
+
 
           </form>
 
         </div>
       </div>
 
+
+
       <!-- <div class="hidden" data-view="update-delete-itinerary">
-        <div class="delete-container">
+        <div class="delete-container hidden">
           <div class="row">
             <h2>Delete Itinerary</h2>
           </div>

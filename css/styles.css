@@ -105,6 +105,10 @@ select {
   margin-bottom: 40px;
 }
 
+.normal {
+  display: normal;
+}
+
 li {
   list-style: none;
 }
@@ -113,7 +117,7 @@ li {
   margin-left: 20px;
 }
 
-.time-margin {
+.margin-right {
   margin-right: 70px;
 }
 

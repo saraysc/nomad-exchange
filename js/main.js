@@ -1,5 +1,7 @@
 var weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
+// const heart = ['far fa-heart fa-xl icon', 'fas fa-heart fa-xl icon'];
+
 function saveInput(event) {
   event.preventDefault();
   var datas = event.target.elements.date.value;
@@ -12,7 +14,6 @@ function saveInput(event) {
   var secondMoney = event.target.elements.secondCurrency.value;
   var priceInt = parseInt($submit.elements.price.value);
 
-  data.currencyRate = (firstMoney + secondMoney).toUpperCase();
   var entryObject = {
     date: finalDate,
     startTime: $submit.elements.time.value,
@@ -26,7 +27,9 @@ function saveInput(event) {
     weekDay: findDay
   };
   // data.dates.unshift(entryObject.date);
+
   getRate(entryObject);
+
   data.nextEntryId += 1;
   data.entries.unshift(entryObject);
   $submit.reset();
@@ -81,7 +84,6 @@ function newEntry(object) {
   var heartIcon = document.createElement('i');
   heartIcon.className = 'far fa-heart fa-xl icon';
   heartIcon.setAttribute('icon', object.entryId);
-  // data.heart.push(heartIcon);
   timeRow.append(heartIcon);
 
   var locationRow = document.createElement('div');
@@ -148,10 +150,6 @@ function newItinerary(event) {
   // viewSwap('view-list');
 }
 
-// function clickedIcon(event) {
-//   heartIcon.className = 'far fa-heart fa-xl icon';
-// }
-
 function handleEditSubmit(event) { // handles the submit event for editing an entry
   event.preventDefault();
   data.editing.date = $submit.elements.date.value;
@@ -161,7 +159,9 @@ function handleEditSubmit(event) { // handles the submit event for editing an en
   data.editing.location = $submit.elements.location.value;
   data.editing.price = $submit.elements.price.value;
   var $nodeToReplace = document.querySelector(`li[data-entry-id="${data.editing.entryId}"]`);
+
   $nodeToReplace.replaceWith(newEntry(data.editing));
+
   viewSwap('view-list');
   // data.editing = null;
 }
@@ -170,8 +170,15 @@ function editDelete() {
   if (event.target.tagName === 'I') {
     const element = document.querySelectorAll('i');
     for (let i = 0; i < element.length; i++) {
+      // var $icon = element.getAttribute('icon');
       if (parseInt(event.target.closest('i').getAttribute('icon')) === parseInt(element[i].getAttribute('icon'))) {
-        element[i].className = 'fas fa-heart fa-xl icon';
+        if (element[i].className === 'far fa-heart fa-xl icon') {
+          element[i].className = 'fas fa-heart fa-xl icon';
+          // $icon.replaceWith(newEntry(element[i].className));
+        } else if (element[i].className === 'fas fa-heart fa-xl icon') {
+          element[i].className = 'far fa-heart fa-xl icon';
+          // $icon.replaceWith(newEntry(element[i].className));
+        }
       }
     }
   }
@@ -198,6 +205,17 @@ function editDelete() {
   $submit.elements.location.value = data.editing.location;
   $submit.elements.price.value = data.editing.price;
   $deleteContainer.classList.remove('hidden');
+
+}
+function showModal(event) {
+  myModal.className = 'modal-content row justify-center';
+  modalBox.className = 'modal';
+}
+
+function hideModal(event) {
+
+  myModal.className = 'modal-content hidden row justify-center';
+  modalBox.className = 'modal hidden';
 }
 
 var $submit = document.querySelector('form');
@@ -209,17 +227,37 @@ $submit.addEventListener('submit', function (event) {
   }
 });
 
+function deleteItinerary(event) {
+
+  var entryDataId = data.editing.entryId;
+  var entryNodeList = document.querySelectorAll('.list-container');
+
+  for (var i = 0; i < entryNodeList.length; i++) {
+    if (entryNodeList[i].getAttribute('data-entry-id') === entryDataId.toString()) {
+      entryNodeList[i].remove();
+    }
+    if (entryDataId === data.entries[i].entryId) {
+      data.entries.splice(i, 1);
+    }
+  }
+  // if (data.entries.length === 0) {
+  //   $listTitle.textContent = 'No entries have been recorded';
+  // }
+  hideModal();
+  viewSwap('view-list');
+}
+
 document.addEventListener('DOMContentLoaded', contentLoad);
 var $deleteContainer = document.querySelector('.delete-container');
 
 var $createButton = document.querySelector('.create-button');
 $createButton.addEventListener('click', function (event) {
-
   viewSwap('new-list');
-
+  $deleteContainer.className = 'delete-container hidden';
   $finalCreateBtn.textContent = 'Create New\r\nItinerary List';
   $newTitle.textContent = 'Create New Itinerary List';
 
+  $submit.reset();
 });
 
 var $listTitle = document.querySelector('.listing-title');
@@ -242,24 +280,31 @@ var $dateInput = document.getElementById('date');
 var $ul = document.querySelector('ul');
 $ul.addEventListener('click', editDelete);
 
-var $cancelBtn = document.querySelector('.cancel-btn');
-$cancelBtn.addEventListener('click', viewSwap('view-list'));
+var $cancelBtn = document.querySelector('.cancel');
+$cancelBtn.addEventListener('click', cancelBtn);
 
-// var allInputs = document.querySelectorAll('input');
-// function (event) {
-//   // for (var i = 0; i < allInputs.length; i++) {
-//   //   allInputs[i].removeAttribute('required');
-//   // }
-//   viewSwap('[view-list]');
-// });
+function cancelBtn(event) {
+  return viewSwap('view-list');
+}
+
+var $firstDelete = document.querySelector('.first-delete');
+var $cancelDelete = document.querySelector('.cancel-delete');
+var myModal = document.querySelector('.modal-content');
+var modalBox = document.querySelector('.modal');
+$firstDelete.addEventListener('click', showModal);
+$cancelDelete.addEventListener('click', hideModal);
+
 function getRate(entryObject) {
+  data.currencyRate = (entryObject.firstCurrency + entryObject.secondCurrency).toUpperCase();
   var targetUrl = encodeURIComponent('https://www.freeforexapi.com/api/live?pairs=' + data.currencyRate);
 
   var xhr = new XMLHttpRequest();
   xhr.open('GET', 'https://lfz-cors.herokuapp.com/?url=' + targetUrl);
   xhr.setRequestHeader('token', 'abc123');
   xhr.responseType = 'json';
+
   function onLoad(event) {
+
     data.rates = xhr.response.rates[data.currencyRate].rate;
     entryObject.totalUsd = data.rates * entryObject.price;
     var renderedEntry = newEntry(entryObject);
@@ -269,3 +314,6 @@ function getRate(entryObject) {
 
   xhr.send();
 }
+
+var $confirmDelete = document.querySelector('.confirm-delete');
+$confirmDelete.addEventListener('click', deleteItinerary);

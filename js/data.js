@@ -1,6 +1,6 @@
 var data = {
-  dates: [],
-  heart: [],
+  days: [],
+  heart: ['far fa-heart fa-xl icon', 'fas fa-heart fa-xl icon'],
   view: 'view-list',
   entries: [],
   editing: null,

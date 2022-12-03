@@ -13,7 +13,6 @@ function saveInput(event) {
   var firstMoney = event.target.elements.firstCurrency.value;
   var secondMoney = event.target.elements.secondCurrency.value;
   var priceInt = parseInt($submit.elements.price.value);
-
   var entryObject = {
     date: finalDate,
     startTime: $submit.elements.time.value,
@@ -24,20 +23,20 @@ function saveInput(event) {
     price: priceInt,
     entryId: data.nextEntryId,
     currencies: (firstMoney + secondMoney).toUpperCase(),
-    weekDay: findDay
+    weekDay: findDay,
+    click: false
   };
-  // data.dates.unshift(entryObject.date);
 
   getRate(entryObject);
 
   data.nextEntryId += 1;
   data.entries.unshift(entryObject);
   $submit.reset();
-  viewSwap('view-list');
-  if (!data.dates[entryObject.date]) {
-    data.dates.push(entryObject.date);
-  }
 
+  viewSwap('view-list');
+  if (data.dates[0] === undefined) {
+    data.dates.unshift(entryObject.date);
+  }
 }
 
 function viewSwap(string) {
@@ -82,7 +81,12 @@ function newEntry(object) {
   timeRow.append(timeValue);
 
   var heartIcon = document.createElement('i');
-  heartIcon.className = 'far fa-heart fa-xl icon';
+  if (!object.click) {
+    heartIcon.className = 'far fa-heart fa-xl icon';
+  } else {
+    heartIcon.className = 'far fa-heart fa-xl icon';
+  }
+  // heartIcon.className = object.click;
   heartIcon.setAttribute('icon', object.entryId);
   timeRow.append(heartIcon);
 
@@ -143,15 +147,19 @@ function contentLoad(event) {
 
 function newItinerary(event) {
   viewSwap('new-list');
+  $deleteContainer.className = 'delete-container hidden';
   $newTitle.textContent = 'Add Itinerary';
   $finalCreateBtn.textContent = 'Add Itinerary';
   $submit.elements.date.value = data.editing.date;
   $dateInput.disabled = true;
+
   // viewSwap('view-list');
 }
 
 function handleEditSubmit(event) { // handles the submit event for editing an entry
   event.preventDefault();
+  // data.editing.currency = getRate(data.editing);
+
   data.editing.date = $submit.elements.date.value;
   data.editing.startTime = $submit.elements.time.value;
   data.editing.endTime = $submit.elements.endTime.value;
@@ -159,28 +167,46 @@ function handleEditSubmit(event) { // handles the submit event for editing an en
   data.editing.location = $submit.elements.location.value;
   data.editing.price = $submit.elements.price.value;
   var $nodeToReplace = document.querySelector(`li[data-entry-id="${data.editing.entryId}"]`);
-
   $nodeToReplace.replaceWith(newEntry(data.editing));
-
   viewSwap('view-list');
   // data.editing = null;
 }
 
+// function iconChange(object) {
+//   const element = document.querySelectorAll('i');
+//   for (let i = 0; i < element.length; i++) {
+//     if (parseInt(event.target.closest('i').getAttribute('icon')) === parseInt(element[i].getAttribute('icon'))) {
+//       if (element[i].className === 'far fa-heart fa-xl icon') {
+//         element[i].className = 'fas fa-heart fa-xl icon';
+//         object.click = true;
+//       } else if (element[i].className === 'fas fa-heart fa-xl icon') {
+//         element[i].className = 'far fa-heart fa-xl icon';
+//         object.click = false;
+//       }
+//     }
+//   }
+// }
+
 function editDelete() {
   if (event.target.tagName === 'I') {
-    const element = document.querySelectorAll('i');
-    for (let i = 0; i < element.length; i++) {
-      // var $icon = element.getAttribute('icon');
-      if (parseInt(event.target.closest('i').getAttribute('icon')) === parseInt(element[i].getAttribute('icon'))) {
-        if (element[i].className === 'far fa-heart fa-xl icon') {
-          element[i].className = 'fas fa-heart fa-xl icon';
-          // $icon.replaceWith(newEntry(element[i].className));
-        } else if (element[i].className === 'fas fa-heart fa-xl icon') {
-          element[i].className = 'far fa-heart fa-xl icon';
-          // $icon.replaceWith(newEntry(element[i].className));
-        }
+    // const element = document.querySelectorAll('i');
+    for (let i = 0; i < data.entries.length; i++) { // loop through data entries and find matching entry id
+      if (data.entries[i].entryId === parseInt(event.target.closest('li').getAttribute('data-entry-id'))) {
+        ('li').getAttribute('data-entry-id').click = true;
+
       }
     }
+    // for (let i = 0; i < element.length; i++) {
+    //   if (parseInt(event.target.closest('i').getAttribute('icon')) === parseInt(element[i].getAttribute('icon'))) {
+    //     if (element[i].className === 'far fa-heart fa-xl icon') {
+    //       element[i].className = 'fas fa-heart fa-xl icon';
+    //       object.click = true;
+    //     } else if (element[i].className === 'fas fa-heart fa-xl icon') {
+    //       element[i].className = 'far fa-heart fa-xl icon';
+    //       object.click = false;
+    //     }
+    //   }
+    // }
   }
   if (event.target.tagName !== 'A') {
     return;
@@ -194,9 +220,7 @@ function editDelete() {
   }
 
   viewSwap('new-list');
-
   $newTitle.textContent = 'Edit/Delete Entry';
-
   $finalCreateBtn.textContent = 'Edit Itinerary';
   $submit.elements.date.value = data.editing.date;
   $submit.elements.time.value = data.editing.startTime;
@@ -205,7 +229,6 @@ function editDelete() {
   $submit.elements.location.value = data.editing.location;
   $submit.elements.price.value = data.editing.price;
   $deleteContainer.classList.remove('hidden');
-
 }
 function showModal(event) {
   myModal.className = 'modal-content row justify-center';
@@ -295,7 +318,7 @@ $firstDelete.addEventListener('click', showModal);
 $cancelDelete.addEventListener('click', hideModal);
 
 function getRate(entryObject) {
-  data.currencyRate = (entryObject.firstCurrency + entryObject.secondCurrency).toUpperCase();
+  data.currencyRate = (entryObject.firstCurrency + 'USD').toUpperCase();
   var targetUrl = encodeURIComponent('https://www.freeforexapi.com/api/live?pairs=' + data.currencyRate);
 
   var xhr = new XMLHttpRequest();

@@ -173,7 +173,7 @@ a {
 }
 
 .text-center {
-  margin-left: 220px;
+  margin-left: 190px;
   margin-top: 30px;
   width: 100px;
   text-align: center;
@@ -215,4 +215,8 @@ a {
   letter-spacing: 0.5px;
   width: 100px;
   height: 45px;
+}
+
+.date-title {
+  width: 160px;
 }

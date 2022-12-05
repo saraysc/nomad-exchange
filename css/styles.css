@@ -220,3 +220,7 @@ a {
 .date-title {
   width: 160px;
 }
+
+.text-align-center {
+  text-align: center;
+}

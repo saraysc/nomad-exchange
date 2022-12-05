@@ -9,7 +9,6 @@ function saveInput(event) {
   var finalDate = [month, day, year].join('-');
   var convData = new Date(finalDate);
   var findDay = weekdays[convData.getDay()];
-
   var firstMoney = event.target.elements.firstCurrency.value;
   var secondMoney = event.target.elements.secondCurrency.value;
   var priceInt = parseInt($submit.elements.price.value);
@@ -84,7 +83,7 @@ function newEntry(object) {
   if (!object.click) {
     heartIcon.className = 'far fa-heart fa-xl icon';
   } else {
-    heartIcon.className = 'far fa-heart fa-xl icon';
+    heartIcon.className = 'fas fa-heart fa-xl icon';
   }
   // heartIcon.className = object.click;
   heartIcon.setAttribute('icon', object.entryId);
@@ -118,7 +117,8 @@ function newEntry(object) {
 
   var price = document.createElement('p');
   price.className = 'price-margin';
-  price.textContent = object.firstCurrency.toUpperCase() + ' ' + object.price;
+  // object.firstCurrency.toUpperCase() + ' ' +f
+  price.textContent = `${object.firstCurrency.toUpperCase()} ${object.price}`;
   conversionRow.append(price);
 
   var editDelete = document.createElement('a');
@@ -147,11 +147,11 @@ function contentLoad(event) {
 
 function newItinerary(event) {
   viewSwap('new-list');
+  $submit.reset();
+  $dateInput.disabled = true;
   $deleteContainer.className = 'delete-container hidden';
   $newTitle.textContent = 'Add Itinerary';
   $finalCreateBtn.textContent = 'Add Itinerary';
-  $submit.elements.date.value = data.editing.date;
-  $dateInput.disabled = true;
 
   // viewSwap('view-list');
 }
@@ -159,55 +159,42 @@ function newItinerary(event) {
 function handleEditSubmit(event) { // handles the submit event for editing an entry
   event.preventDefault();
   // data.editing.currency = getRate(data.editing);
-
   data.editing.date = $submit.elements.date.value;
   data.editing.startTime = $submit.elements.time.value;
   data.editing.endTime = $submit.elements.endTime.value;
   data.editing.firstCurrency = event.target.elements.firstCurrency.value;
   data.editing.location = $submit.elements.location.value;
   data.editing.price = $submit.elements.price.value;
+  // getRate(data.editing.firstCurrency);
   var $nodeToReplace = document.querySelector(`li[data-entry-id="${data.editing.entryId}"]`);
   $nodeToReplace.replaceWith(newEntry(data.editing));
   viewSwap('view-list');
   // data.editing = null;
 }
 
-// function iconChange(object) {
-//   const element = document.querySelectorAll('i');
-//   for (let i = 0; i < element.length; i++) {
-//     if (parseInt(event.target.closest('i').getAttribute('icon')) === parseInt(element[i].getAttribute('icon'))) {
-//       if (element[i].className === 'far fa-heart fa-xl icon') {
-//         element[i].className = 'fas fa-heart fa-xl icon';
-//         object.click = true;
-//       } else if (element[i].className === 'fas fa-heart fa-xl icon') {
-//         element[i].className = 'far fa-heart fa-xl icon';
-//         object.click = false;
-//       }
-//     }
-//   }
-// }
-
-function editDelete() {
+function iconChange(object) {
   if (event.target.tagName === 'I') {
-    // const element = document.querySelectorAll('i');
+    const element = document.querySelectorAll('i');
     for (let i = 0; i < data.entries.length; i++) { // loop through data entries and find matching entry id
       if (data.entries[i].entryId === parseInt(event.target.closest('li').getAttribute('data-entry-id'))) {
-        ('li').getAttribute('data-entry-id').click = true;
+
+        var $nodeToReplace = document.querySelector(`li[data-entry-id="${data.entries[i].entryId}"]`);
+        if (data.entries[i].click === true) {
+          element[i].class = 'fas fa-heart fa-xl icon';
+          data.entries[i].click = false;
+          $nodeToReplace.replaceWith(newEntry(data.entries[i]));
+        } else if (data.entries[i].click === false) {
+          element[i].class = 'far fa-heart fa-xl icon';
+          data.entries[i].click = true;
+          $nodeToReplace.replaceWith(newEntry(data.entries[i]));
+        }
 
       }
     }
-    // for (let i = 0; i < element.length; i++) {
-    //   if (parseInt(event.target.closest('i').getAttribute('icon')) === parseInt(element[i].getAttribute('icon'))) {
-    //     if (element[i].className === 'far fa-heart fa-xl icon') {
-    //       element[i].className = 'fas fa-heart fa-xl icon';
-    //       object.click = true;
-    //     } else if (element[i].className === 'fas fa-heart fa-xl icon') {
-    //       element[i].className = 'far fa-heart fa-xl icon';
-    //       object.click = false;
-    //     }
-    //   }
-    // }
   }
+}
+
+function editDelete() {
   if (event.target.tagName !== 'A') {
     return;
   }
@@ -223,21 +210,23 @@ function editDelete() {
   $newTitle.textContent = 'Edit/Delete Entry';
   $finalCreateBtn.textContent = 'Edit Itinerary';
   $submit.elements.date.value = data.editing.date;
+
   $submit.elements.time.value = data.editing.startTime;
   $submit.elements.endTime.value = data.editing.endTime;
   $submit.elements.firstCurrency.value = data.editing.firstCurrency;
   $submit.elements.location.value = data.editing.location;
   $submit.elements.price.value = data.editing.price;
   $deleteContainer.classList.remove('hidden');
+  $dateInput.disabled = true;
 }
 function showModal(event) {
-  myModal.className = 'modal-content row justify-center';
+  myModal.className = 'modal-content center';
   modalBox.className = 'modal';
 }
 
 function hideModal(event) {
 
-  myModal.className = 'modal-content hidden row justify-center';
+  myModal.className = 'modal-content hidden center';
   modalBox.className = 'modal hidden';
 }
 
@@ -279,8 +268,8 @@ $createButton.addEventListener('click', function (event) {
   $deleteContainer.className = 'delete-container hidden';
   $finalCreateBtn.textContent = 'Create New\r\nItinerary List';
   $newTitle.textContent = 'Create New Itinerary List';
-
   $submit.reset();
+  $dateInput.disabled = false;
 });
 
 var $listTitle = document.querySelector('.listing-title');
@@ -340,3 +329,6 @@ function getRate(entryObject) {
 
 var $confirmDelete = document.querySelector('.confirm-delete');
 $confirmDelete.addEventListener('click', deleteItinerary);
+
+var $divs = document.querySelector('html');
+$divs.addEventListener('click', iconChange);

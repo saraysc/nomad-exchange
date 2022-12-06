@@ -27,6 +27,10 @@ body {
   justify-content: center;
 }
 
+.space-around {
+  justify-content: space-around;
+}
+
 .button-container {
   height: 60vh;
 }
@@ -44,13 +48,14 @@ body {
 .new-list-button {
   background-color: #0e2fa4;
   border: #0e2fa4;
-  padding: 5px 34px;
+  padding: 5px 28px;
   border-radius: 24px;
   color: white;
   font-size: 14px;
   font-weight: 600;
   letter-spacing: 0.5px;
   width: 160px;
+  height: 45px;
 }
 
 .column {
@@ -105,6 +110,10 @@ select {
   margin-bottom: 40px;
 }
 
+.normal {
+  display: normal;
+}
+
 li {
   list-style: none;
 }
@@ -113,7 +122,7 @@ li {
   margin-left: 20px;
 }
 
-.time-margin {
+.margin-right {
   margin-right: 70px;
 }
 
@@ -164,7 +173,7 @@ a {
 }
 
 .text-center {
-  margin-left: 220px;
+  margin-left: 190px;
   margin-top: 30px;
   width: 100px;
   text-align: center;
@@ -173,4 +182,45 @@ a {
 .new-itinerary-margin {
   margin-left: 180px;
   margin-top: 70px;
+}
+
+.modal {
+  position: fixed;
+  padding-top: 100px;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6);
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: auto;
+  padding: 20px;
+  border: 1px solid #888;
+  height: 150px;
+  width: 400px;
+  border-radius: 5px;
+}
+
+.modal-button {
+  background-color: #0e2fa4;
+  border: #0e2fa4;
+  padding: 5px 20px;
+  border-radius: 24px;
+  color: white;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  width: 100px;
+  height: 45px;
+}
+
+.date-title {
+  width: 160px;
+}
+
+.text-align-center {
+  text-align: center;
 }

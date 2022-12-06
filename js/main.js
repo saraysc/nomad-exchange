@@ -1,5 +1,7 @@
 var weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
+// const heart = ['far fa-heart fa-xl icon', 'fas fa-heart fa-xl icon'];
+
 function saveInput(event) {
   event.preventDefault();
   var datas = event.target.elements.date.value;
@@ -7,12 +9,9 @@ function saveInput(event) {
   var finalDate = [month, day, year].join('-');
   var convData = new Date(finalDate);
   var findDay = weekdays[convData.getDay()];
-
   var firstMoney = event.target.elements.firstCurrency.value;
   var secondMoney = event.target.elements.secondCurrency.value;
   var priceInt = parseInt($submit.elements.price.value);
-
-  data.currencyRate = (firstMoney + secondMoney).toUpperCase();
   var entryObject = {
     date: finalDate,
     startTime: $submit.elements.time.value,
@@ -23,8 +22,10 @@ function saveInput(event) {
     price: priceInt,
     entryId: data.nextEntryId,
     currencies: (firstMoney + secondMoney).toUpperCase(),
-    weekDay: findDay
+    weekDay: findDay,
+    click: false
   };
+
   getRate(entryObject);
 
   data.nextEntryId += 1;
@@ -32,7 +33,9 @@ function saveInput(event) {
   $submit.reset();
 
   viewSwap('view-list');
-
+  if (data.dates[0] === undefined) {
+    data.dates.unshift(entryObject.date);
+  }
 }
 
 function viewSwap(string) {
@@ -43,6 +46,9 @@ function viewSwap(string) {
     } else {
       $dataViews[i].className = 'hidden';
     }
+    if (string === 'view-list') {
+      data.editing = null;
+    }
   }
 }
 
@@ -50,6 +56,7 @@ function newEntry(object) {
 
   if ($dateTitle.textContent === '') {
     $dateTitle.className = 'date-title';
+
     $dateTitle.textContent = object.date + ' ' + object.weekDay;
     $dateTitle.setAttribute('current-date', object.date);
   }
@@ -64,7 +71,7 @@ function newEntry(object) {
 
   var time = document.createElement('p');
   time.textContent = 'Time';
-  time.className = 'time-margin';
+  time.className = 'margin-right';
   timeRow.append(time);
   listItem.append(timeRow);
 
@@ -73,7 +80,13 @@ function newEntry(object) {
   timeRow.append(timeValue);
 
   var heartIcon = document.createElement('i');
-  heartIcon.className = 'far fa-heart fa-xl icon';
+  if (!object.click) {
+    heartIcon.className = 'far fa-heart fa-xl icon';
+  } else {
+    heartIcon.className = 'fas fa-heart fa-xl icon';
+  }
+  // heartIcon.className = object.click;
+  heartIcon.setAttribute('icon', object.entryId);
   timeRow.append(heartIcon);
 
   var locationRow = document.createElement('div');
@@ -99,18 +112,20 @@ function newEntry(object) {
   listItem.append(conversionRow);
 
   var currency2 = document.createElement('p');
-  currency2.textContent = '$' + (Number(object.totalUsd).toFixed(2));
+  currency2.textContent = '$' + (Number(data.rates * object.price).toFixed(2));
   conversionRow.append(currency2);
 
   var price = document.createElement('p');
   price.className = 'price-margin';
-  price.textContent = object.firstCurrency.toUpperCase() + ' ' + object.price;
+  // object.firstCurrency.toUpperCase() + ' ' +f
+  price.textContent = `${object.firstCurrency.toUpperCase()} ${object.price}`;
   conversionRow.append(price);
 
   var editDelete = document.createElement('a');
   editDelete.setAttribute('href', '#');
   editDelete.innerHTML = 'Update/Delete Itinerary';
   editDelete.className = 'edit-delete-margin font-label';
+  editDelete.setAttribute('link-id', object.entryId);
   listItem.append(editDelete);
 
   itineraryContainer.append(listItem);
@@ -132,21 +147,129 @@ function contentLoad(event) {
 
 function newItinerary(event) {
   viewSwap('new-list');
+  $submit.reset();
+  $dateInput.disabled = true;
+  $deleteContainer.className = 'delete-container hidden';
   $newTitle.textContent = 'Add Itinerary';
-  // $submit.elements.date.value = event.target.closest('ul').getAttribute('current-date');
   $finalCreateBtn.textContent = 'Add Itinerary';
+
+  // viewSwap('view-list');
+}
+
+function handleEditSubmit(event) { // handles the submit event for editing an entry
+  event.preventDefault();
+  // data.editing.currency = getRate(data.editing);
+  data.editing.date = $submit.elements.date.value;
+  data.editing.startTime = $submit.elements.time.value;
+  data.editing.endTime = $submit.elements.endTime.value;
+  data.editing.firstCurrency = event.target.elements.firstCurrency.value;
+  data.editing.location = $submit.elements.location.value;
+  data.editing.price = $submit.elements.price.value;
+  // getRate(data.editing.firstCurrency);
+  var $nodeToReplace = document.querySelector(`li[data-entry-id="${data.editing.entryId}"]`);
+  $nodeToReplace.replaceWith(newEntry(data.editing));
+  viewSwap('view-list');
+  // data.editing = null;
+}
+
+function iconChange(object) {
+  if (event.target.tagName === 'I') {
+    const element = document.querySelectorAll('i');
+    for (let i = 0; i < data.entries.length; i++) { // loop through data entries and find matching entry id
+      if (data.entries[i].entryId === parseInt(event.target.closest('li').getAttribute('data-entry-id'))) {
+
+        var $nodeToReplace = document.querySelector(`li[data-entry-id="${data.entries[i].entryId}"]`);
+        if (data.entries[i].click === true) {
+          element[i].class = 'fas fa-heart fa-xl icon';
+          data.entries[i].click = false;
+          $nodeToReplace.replaceWith(newEntry(data.entries[i]));
+        } else if (data.entries[i].click === false) {
+          element[i].class = 'far fa-heart fa-xl icon';
+          data.entries[i].click = true;
+          $nodeToReplace.replaceWith(newEntry(data.entries[i]));
+        }
+
+      }
+    }
+  }
+}
+
+function editDelete() {
+  if (event.target.tagName !== 'A') {
+    return;
+  }
+  if (event.target && event.target.tagName === 'A') {
+    for (let i = 0; i < data.entries.length; i++) { // loop through data entries and find matching entry id
+      if (data.entries[i].entryId === parseInt(event.target.closest('li').getAttribute('data-entry-id'))) {
+        data.editing = data.entries[i];
+      }
+    }
+  }
+
+  viewSwap('new-list');
+  $newTitle.textContent = 'Edit/Delete Entry';
+  $finalCreateBtn.textContent = 'Edit Itinerary';
+  $submit.elements.date.value = data.editing.date;
+
+  $submit.elements.time.value = data.editing.startTime;
+  $submit.elements.endTime.value = data.editing.endTime;
+  $submit.elements.firstCurrency.value = data.editing.firstCurrency;
+  $submit.elements.location.value = data.editing.location;
+  $submit.elements.price.value = data.editing.price;
+  $deleteContainer.classList.remove('hidden');
+  $dateInput.disabled = true;
+}
+function showModal(event) {
+  myModal.className = 'modal-content center';
+  modalBox.className = 'modal';
+}
+
+function hideModal(event) {
+
+  myModal.className = 'modal-content hidden center';
+  modalBox.className = 'modal hidden';
 }
 
 var $submit = document.querySelector('form');
-$submit.addEventListener('submit', saveInput);
+$submit.addEventListener('submit', function (event) {
+  if (data.editing) {
+    return handleEditSubmit(event);
+  } else {
+    return saveInput(event);
+  }
+});
+
+function deleteItinerary(event) {
+
+  var entryDataId = data.editing.entryId;
+  var entryNodeList = document.querySelectorAll('.list-container');
+
+  for (var i = 0; i < entryNodeList.length; i++) {
+    if (entryNodeList[i].getAttribute('data-entry-id') === entryDataId.toString()) {
+      entryNodeList[i].remove();
+    }
+    if (entryDataId === data.entries[i].entryId) {
+      data.entries.splice(i, 1);
+    }
+  }
+  // if (data.entries.length === 0) {
+  //   $listTitle.textContent = 'No entries have been recorded';
+  // }
+  hideModal();
+  viewSwap('view-list');
+}
 
 document.addEventListener('DOMContentLoaded', contentLoad);
+var $deleteContainer = document.querySelector('.delete-container');
 
 var $createButton = document.querySelector('.create-button');
 $createButton.addEventListener('click', function (event) {
   viewSwap('new-list');
+  $deleteContainer.className = 'delete-container hidden';
   $finalCreateBtn.textContent = 'Create New\r\nItinerary List';
   $newTitle.textContent = 'Create New Itinerary List';
+  $submit.reset();
+  $dateInput.disabled = false;
 });
 
 var $listTitle = document.querySelector('.listing-title');
@@ -164,14 +287,36 @@ var $finalCreateBtn = document.querySelector('.final-create');
 
 var $newItineraryContainer = document.querySelector('.new-itinerary-margin');
 
+var $dateInput = document.getElementById('date');
+
+var $ul = document.querySelector('ul');
+$ul.addEventListener('click', editDelete);
+
+var $cancelBtn = document.querySelector('.cancel');
+$cancelBtn.addEventListener('click', cancelBtn);
+
+function cancelBtn(event) {
+  return viewSwap('view-list');
+}
+
+var $firstDelete = document.querySelector('.first-delete');
+var $cancelDelete = document.querySelector('.cancel-delete');
+var myModal = document.querySelector('.modal-content');
+var modalBox = document.querySelector('.modal');
+$firstDelete.addEventListener('click', showModal);
+$cancelDelete.addEventListener('click', hideModal);
+
 function getRate(entryObject) {
+  data.currencyRate = (entryObject.firstCurrency + 'USD').toUpperCase();
   var targetUrl = encodeURIComponent('https://www.freeforexapi.com/api/live?pairs=' + data.currencyRate);
 
   var xhr = new XMLHttpRequest();
   xhr.open('GET', 'https://lfz-cors.herokuapp.com/?url=' + targetUrl);
   xhr.setRequestHeader('token', 'abc123');
   xhr.responseType = 'json';
+
   function onLoad(event) {
+
     data.rates = xhr.response.rates[data.currencyRate].rate;
     entryObject.totalUsd = data.rates * entryObject.price;
     var renderedEntry = newEntry(entryObject);
@@ -181,3 +326,9 @@ function getRate(entryObject) {
 
   xhr.send();
 }
+
+var $confirmDelete = document.querySelector('.confirm-delete');
+$confirmDelete.addEventListener('click', deleteItinerary);
+
+var $divs = document.querySelector('html');
+$divs.addEventListener('click', iconChange);

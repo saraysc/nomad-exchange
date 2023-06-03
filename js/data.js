@@ -1,6 +1,8 @@
 var data = {
+  days: [],
+  heart: ['far fa-heart fa-xl icon', 'fas fa-heart fa-xl icon'],
   view: 'view-list',
-  entries: [],
+  entries: {},
   editing: null,
   nextEntryId: 1,
   currencyRate: '',

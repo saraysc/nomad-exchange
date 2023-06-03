@@ -33,6 +33,7 @@ body {
 
 .button-container {
   height: 60vh;
+  margin: auto;
 }
 
 .edit-create-button {
@@ -42,6 +43,7 @@ body {
 
 .bottom {
   position: absolute;
+  margin-left: 500px;
   bottom: 20px;
 }
 
@@ -100,13 +102,13 @@ select {
   flex-basis: 50%;
 }
 
-.list-container {
-  width: 450px;
+.list-box {
+  width: 500px;
   height: 150px;
   background-color: white;
   box-shadow: 5px 5px #c4c4c4;
   font-size: 14px;
-  margin-top: 40px;
+  margin: auto;
   margin-bottom: 40px;
 }
 
@@ -173,14 +175,14 @@ a {
 }
 
 .text-center {
-  margin-left: 190px;
+  margin-left: 468px;
   margin-top: 30px;
   width: 100px;
   text-align: center;
 }
 
 .new-itinerary-margin {
-  margin-left: 180px;
+  margin-left: 470px;
   margin-top: 70px;
 }
 
@@ -218,7 +220,11 @@ a {
 }
 
 .date-title {
-  width: 160px;
+  width: 120px;
+  font-weight: bold;
+  text-align: center;
+  margin: auto;
+  padding-bottom: 30px;
 }
 
 .text-align-center {

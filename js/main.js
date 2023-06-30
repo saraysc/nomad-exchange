@@ -1,7 +1,5 @@
 var weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
-// const heart = ['far fa-heart fa-xl icon', 'fas fa-heart fa-xl icon'];
-
 function saveInput(event) {
   event.preventDefault();
   var datas = event.target.elements.date.value;
@@ -18,6 +16,7 @@ function saveInput(event) {
     startTime: $submit.elements.time.value,
     endTime: $submit.elements.endTime.value,
     location: $submit.elements.location.value,
+    notes: $submit.elements.notes.value,
     firstCurrency: firstMoney,
     secondCurrency: secondMoney,
     price: priceInt,
@@ -57,30 +56,23 @@ function viewSwap(string) {
 
 function newEntry(object) {
 
-  // if ($dateTitle.textContent === '') {
-  //   $dateTitle.className = 'date-title';
-
-  //   $dateTitle.textContent = object.date + ' ' + object.weekDay;
-  //   $dateTitle.setAttribute('current-date', object.date);
-  // }
   var date = document.createElement('p');
   for (const i in data.entries) {
+    // for (let m = 0; m < data.entries[i].length; m++) {
     if (data.entries[i].indexOf(object.date) > 0) {
-      date.textContent = '';
+      date.className = 'hidden';
     } else {
       date.textContent = object.date + ' ' + object.weekDay;
-      date.className = 'date-title ';
+      date.className = 'date-title margin-auto relative-position center';
     }
+    // }
   }
-
-  // var box = document.createElement('div');
-  // box.append(date);
 
   var listItem = document.createElement('li');
   listItem.className = 'list-container';
   listItem.append(date);
   var itineraryContainer = document.createElement('div');
-  itineraryContainer.className = 'list-box';
+  itineraryContainer.className = 'list-box margin-auto';
 
   var timeRow = document.createElement('div');
   timeRow.className = 'row list-margin padding-top relative-position';
@@ -88,7 +80,7 @@ function newEntry(object) {
 
   var time = document.createElement('p');
   time.textContent = 'Time';
-  time.className = 'margin-right';
+  time.className = 'subtitle';
   timeRow.append(time);
   itineraryContainer.append(timeRow);
 
@@ -102,7 +94,6 @@ function newEntry(object) {
   } else {
     heartIcon.className = 'fas fa-heart fa-xl icon';
   }
-  // heartIcon.className = object.click;
   heartIcon.setAttribute('icon', object.entryId);
   timeRow.append(heartIcon);
 
@@ -111,7 +102,7 @@ function newEntry(object) {
 
   var location = document.createElement('p');
   location.textContent = 'Location';
-  location.className = 'location-margin';
+  location.className = 'subtitle';
   locationRow.append(location);
   itineraryContainer.append(locationRow);
 
@@ -119,12 +110,25 @@ function newEntry(object) {
   locationValue.textContent = object.location;
   locationRow.append(locationValue);
 
+  var notesRow = document.createElement('div');
+  notesRow.className = 'row list-margin relative-position';
+
+  var notes = document.createElement('p');
+  notes.textContent = 'Notes';
+  notes.className = 'subtitle';
+  notesRow.append(notes);
+  itineraryContainer.append(notesRow);
+
+  var notesValue = document.createElement('p');
+  notesValue.textContent = object.notes;
+  notesRow.append(notesValue);
+
   var conversionRow = document.createElement('div');
   conversionRow.className = 'row list-margin relative-position';
 
   var conversion = document.createElement('p');
   conversion.textContent = 'Total in USD';
-  conversion.className = 'currency-margin';
+  conversion.className = 'subtitle';
   conversionRow.append(conversion);
   itineraryContainer.append(conversionRow);
 
@@ -134,22 +138,19 @@ function newEntry(object) {
 
   var price = document.createElement('p');
   price.className = 'price-margin';
-  // object.firstCurrency.toUpperCase() + ' ' +f
   price.textContent = `${object.firstCurrency.toString().toUpperCase()} ${object.price}`;
   conversionRow.append(price);
 
   var editDelete = document.createElement('a');
   editDelete.setAttribute('href', '#');
   editDelete.innerHTML = 'Update/Delete Itinerary';
-  editDelete.className = 'edit-delete-margin font-label';
+  editDelete.className = 'edit-delete-margin relative-position font-label';
   editDelete.setAttribute('link-id', object.entryId);
   itineraryContainer.append(editDelete);
 
   listItem.append(itineraryContainer);
-  // box.append(itineraryContainer);
   $listTitle.textContent = 'My Itinerary';
-  // $newItineraryContainer.className = 'new-itinerary-margin';
-  $createNewbtn.className = 'row edit-create-button center';
+  $createNewbtn.className = 'row edit-create-button center relative-position';
   listItem.setAttribute('data-entry-id', object.entryId);
 
   return listItem;
@@ -172,37 +173,24 @@ function contentLoad(event) {
   return $list;
 }
 
-// function newItinerary(event) {
-//   viewSwap('new-list');
-//   $submit.reset();
-//   $dateInput.disabled = true;
-//   $deleteContainer.className = 'delete-container hidden';
-//   $newTitle.textContent = 'Add Itinerary';
-//   $finalCreateBtn.textContent = 'Add Itinerary';
-
-//   // viewSwap('view-list');
-// }
-
-function handleEditSubmit(event) { // handles the submit event for editing an entry
+function handleEditSubmit(event) {
   event.preventDefault();
-  // data.editing.currency = getRate(data.editing);
   data.editing.date = $submit.elements.date.value;
   data.editing.startTime = $submit.elements.time.value;
   data.editing.endTime = $submit.elements.endTime.value;
   data.editing.firstCurrency = event.target.elements.firstCurrency.value;
   data.editing.location = $submit.elements.location.value;
   data.editing.price = $submit.elements.price.value;
-  // getRate(data.editing.firstCurrency);
+  data.editing.notes = $submit.elements.notes.value;
   var $nodeToReplace = document.querySelector(`li[data-entry-id="${data.editing.entryId}"]`);
   $nodeToReplace.replaceWith(getRate(data.editing));
   viewSwap('view-list');
-  // data.editing = null;
 }
 
 function iconChange(object) {
   if (event.target.tagName === 'I') {
     const element = document.querySelectorAll('i');
-    for (const i in data.entries) { // loop through data entries and find matching entry id
+    for (const i in data.entries) {
       for (let m = 0; m < data.entries[i].length; m++) {
         if (data.entries[i][m].entryId === parseInt(event.target.closest('li').getAttribute('data-entry-id'))) {
 
@@ -229,7 +217,7 @@ function editDelete() {
     return;
   }
   if (event.target && event.target.tagName === 'A') {
-    for (const i in data.entries) { // loop through data entries and find matching entry id
+    for (const i in data.entries) {
       for (let m = 0; m < data.entries[i].length; m++) {
         if (data.entries[i][m].entryId === parseInt(event.target.closest('li').getAttribute('data-entry-id'))) {
           data.editing = data.entries[i][m];
@@ -237,27 +225,27 @@ function editDelete() {
       }
     }
   }
-
+  viewSwap('new-list');
   $newTitle.textContent = 'Edit/Delete Entry';
   $finalCreateBtn.textContent = 'Edit Itinerary';
   $submit.elements.date.value = data.editing.date;
-
   $submit.elements.time.value = data.editing.startTime;
   $submit.elements.endTime.value = data.editing.endTime;
   $submit.elements.firstCurrency.value = data.editing.firstCurrency;
   $submit.elements.location.value = data.editing.location;
   $submit.elements.price.value = data.editing.price;
+  $submit.elements.notes.value = data.editing.notes;
   $deleteContainer.classList.remove('hidden');
-  viewSwap('new-list');
+
 }
 function showModal(event) {
-  myModal.className = 'modal-content center';
+  myModal.className = 'modal-content margin-auto center';
   modalBox.className = 'modal';
 }
 
 function hideModal(event) {
 
-  myModal.className = 'modal-content hidden center';
+  myModal.className = 'modal-content margin-auto hidden center';
   modalBox.className = 'modal hidden';
 }
 
@@ -279,7 +267,7 @@ function deleteItinerary(event) {
     if (entryNodeList[i].getAttribute('data-entry-id') === entryDataId.toString()) {
       entryNodeList[i].remove();
     }
-    for (const i in data.entries) { // loop through data entries and find matching entry id
+    for (const i in data.entries) {
       for (let m = 0; m < data.entries[i].length; m++) {
         if (entryDataId === data.entries[i][m].entryId) {
           data.entries[i].splice(m, 1);
@@ -308,19 +296,13 @@ $createButton.addEventListener('click', function (event) {
 });
 
 var $listTitle = document.querySelector('.listing-title');
-// var $dateTitle = document.querySelector('.date-title');
 
 var $list = document.querySelector('.list');
 
 var $createNewbtn = document.querySelector('.button-container');
 
-// var $newItineraryBtn = document.querySelector('.new-itinerary');
-// $newItineraryBtn.addEventListener('click', newItinerary);
-
 var $newTitle = document.querySelector('.title-new');
 var $finalCreateBtn = document.querySelector('.final-create');
-
-// var $newItineraryContainer = document.querySelector('.new-itinerary-margin');
 
 var $dateInput = document.getElementById('date');
 

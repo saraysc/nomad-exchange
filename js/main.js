@@ -12,7 +12,7 @@ function saveInput(event) {
   var priceInt = parseInt($submit.elements.price.value);
 
   var entryObject = {
-    date: finalDate,
+    date: datas,
     startTime: $submit.elements.time.value,
     endTime: $submit.elements.endTime.value,
     location: $submit.elements.location.value,
@@ -272,11 +272,15 @@ function deleteItinerary(event) {
         if (entryDataId === data.entries[i][m].entryId) {
           data.entries[i].splice(m, 1);
         }
+
+      } if (Object.keys(data.entries[i]).length === 0) {
+        delete data.entries[i];
       }
     }
   }
-  if (data.entries.length === 0) {
-    $listTitle.textContent = 'No entries have been recorded';
+
+  if (Object.keys(data.entries).length === 0) {
+    $listTitle.textContent = 'No Listing Available';
   }
   hideModal();
   viewSwap('view-list');

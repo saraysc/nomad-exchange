@@ -28,6 +28,7 @@
       <div class="hidden row header-text-box">
         <h2 class="header-title">Travel Planner</h2>
       </div>
+
     </div>
   </header>
   <main>
@@ -107,12 +108,42 @@
                   <option value="usd">USD</option>
                 </select>
               </div>
+              <div class="margin-small-input margin-top">
+                <label for="country" class="font-label">Country</label>
+                <input list="country" name="country" id="countries" class="small-input font-label">
+                <datalist id="country">
+                  <option value="Australia">
+                  <option value="Austria">
+                  <option value="Belgium">
+                  <option value="Croatia">
+                  <option value="Cyprus">
+                  <option value="Estonia">
+                  <option value="Finland">
+                  <option value="France">
+                  <option value="Germany">
+                  <option value="Greece">
+                  <option value="Ireland">
+                  <option value="Italy">
+                  <option value="Latvia">
+                  <option value="Lithuania">
+                  <option value="Luxembourg">
+                  <option value="Malta">
+                  <option value="Netherlands">
+                  <option value="New Zealand">
+                  <option value="Norther Ireland">
+                  <option value="Portugal">
+                  <option value="Scotland">
+                  <option value="Slovakia">
+                  <option value="Slovenia">
+                  <option value="Spain">
+                  <option value="Wales">
+                </datalist>
+              </div>
             </div>
+
             <input type="text" id="location" class="input-size font-label" name="location" placeholder="Location"
               required>
-            <input type="text" id="notes" class="input-size font-label notes-padding" name="notes" placeholder="Notes"
-              required>
-            <input type="number" id="price" class="input-size font-label" name="price" placeholder="Price (Only Number)"
+            <input type="number" step="0.01" id="price" class="input-size font-label" name="price" placeholder="Price (Only Number)"
               required>
 
             <div class="row center margin-button margin-top">

@@ -3,7 +3,6 @@ body {
   font-family:
     Montserrat,
     sans-serif;
-  font-weight: bold;
 }
 
 .bg-img {
@@ -125,7 +124,7 @@ select {
 
 .list-box {
   width: 500px;
-  height: 200px;
+  height: 190px;
   background-color: white;
   box-shadow: 5px 5px #c4c4c4;
   font-size: 14px;
@@ -147,7 +146,7 @@ li {
 .edit-delete-margin {
   font-size: 14px;
   right: -320px;
-  top: 18px;
+  top: 5px;
 }
 
 .price-margin {
@@ -170,7 +169,7 @@ a {
 }
 
 .padding-top {
-  padding-top: 8px;
+  padding-top: 6px;
 }
 
 .row-inline {
@@ -232,4 +231,14 @@ button {
 
 .subtitle {
   width: 120px;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.date-form {
+  width: 80px;
+  color: black;
+  height: 80px;
 }

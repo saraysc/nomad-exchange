@@ -19,7 +19,6 @@ function saveInput(event) {
     startTime: $submit.elements.time.value,
     endTime: $submit.elements.endTime.value,
     location: $submit.elements.location.value,
-    notes: $submit.elements.notes.value,
     firstCurrency: firstMoney,
     secondCurrency: secondMoney,
     price: priceInt,
@@ -151,6 +150,26 @@ function newEntry(object) {
   editDelete.setAttribute('link-id', object.entryId);
   itineraryContainer.append(editDelete);
 
+  var currencyImage = document.createElement('div');
+  var image = document.createElement('img');
+  if (object.firstCurrency === 'eur') {
+    image.src = './images/euro.PNG';
+    image.alt = 'Europe';
+  } else if (object.firstCurrency === 'gbp') {
+    image.src = './images/great-britain.PNG';
+    image.alt = 'Great Britain';
+  } else if (object.firstCurrency === 'aud') {
+    image.src = './images/australia.png';
+    image.alt = 'Australia';
+  } else if (object.firstCurrency === 'nzd') {
+    image.src = './images/new-zealand.png';
+    image.alt = 'New Zealand';
+  }
+
+  image.className = 'currency-img relative-position';
+  currencyImage.append(image);
+  itineraryContainer.append(currencyImage);
+
   listItem.append(itineraryContainer);
   $listTitle.textContent = 'My Itinerary';
   $createNewbtn.className = 'row edit-create-button center relative-position';
@@ -185,7 +204,6 @@ function handleEditSubmit(event) {
   data.editing.firstCurrency = event.target.elements.firstCurrency.value;
   data.editing.location = $submit.elements.location.value;
   data.editing.price = $submit.elements.price.value;
-  data.editing.notes = $submit.elements.notes.value;
   var $nodeToReplace = document.querySelector(`li[data-entry-id="${data.editing.entryId}"]`);
   viewSwap('view-list');
   return $nodeToReplace.replaceWith(getRate(data.editing));
@@ -238,7 +256,6 @@ function editDelete() {
   $submit.elements.firstCurrency.value = data.editing.firstCurrency;
   $submit.elements.location.value = data.editing.location;
   $submit.elements.price.value = data.editing.price;
-  $submit.elements.notes.value = data.editing.notes;
   $deleteContainer.classList.remove('hidden');
 
 }
@@ -345,7 +362,7 @@ function getRate(entryObject) {
     data.rates = xhr.response.rates[data.currencyRate].rate;
     entryObject.totalUsd = data.rates * entryObject.price;
     var renderedEntry = newEntry(entryObject);
-    $list.prepend(renderedEntry);
+    $list.append(renderedEntry);
   }
   xhr.addEventListener('load', onLoad);
 

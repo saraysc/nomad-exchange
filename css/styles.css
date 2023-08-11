@@ -124,11 +124,16 @@ select {
 
 .list-box {
   width: 500px;
-  height: 190px;
+  height: 150px;
   background-color: white;
   box-shadow: 5px 5px #c4c4c4;
   font-size: 14px;
   margin-bottom: 40px;
+}
+
+.country-img {
+  height: 150px;
+  width: 150px;
 }
 
 li {
@@ -146,7 +151,7 @@ li {
 .edit-delete-margin {
   font-size: 14px;
   right: -320px;
-  top: 5px;
+  top: 14px;
 }
 
 .price-margin {
@@ -241,4 +246,15 @@ button {
   width: 80px;
   color: black;
   height: 80px;
+}
+
+.currency-img {
+  opacity: 0.85;
+  width: 150px;
+  height: 150px;
+  background-image: linear-gradient(rgb(0 0 0 / 30%), rgb(0 0 0 / 30%));
+  right: 150px;
+  top: -160px;
+  z-index: 100;
+  box-shadow: 0 5px #c4c4c4;
 }

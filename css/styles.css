@@ -249,12 +249,19 @@ button {
 }
 
 .currency-img {
-  opacity: 0.85;
+  opacity: 0.75;
   width: 150px;
   height: 150px;
   background-image: linear-gradient(rgb(0 0 0 / 30%), rgb(0 0 0 / 30%));
   right: 150px;
-  top: -160px;
+  top: -158px;
   z-index: 100;
   box-shadow: 0 5px #c4c4c4;
+}
+
+.gif {
+  width: 250px;
+  height: 250px;
+  z-index: 100;
+  opacity: 0.75;
 }

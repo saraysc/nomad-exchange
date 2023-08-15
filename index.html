@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Travel Planner</title>
-  <link rel="icon" href="images/globo.ico">
+  <title>Nomad Exchange</title>
+  <link rel="icon" href="images/earth-americas-solid.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -26,21 +25,28 @@
   <header>
     <div class="header-container">
       <div class="hidden row header-text-box">
-        <h2 class="header-title">Travel Planner</h2>
+        <h2 class="header-title">Nomad Exchange</h2>
       </div>
 
     </div>
   </header>
   <main>
     <div class="main-container center relative-position">
-
       <div class="content-position" data-view="view-list">
         <div>
           <img src="/images/paint.png" alt="home img" class="bg-img">
         </div>
         <div class="row center">
           <h2 class="listing-title center">No Listing Available</h2>
-          <img src="/images/passport.gif" alt="world gif" class="gif">
+        </div>
+        <div class="row display-unset intro-text">
+          <div class="intro-text">
+            <h4>By being provided real-time foreign exchange rates for the the 8 'major' currency pairs,
+            you can create your travel itinerary and track your expenses in US dollars!</h4>
+            <img src="/images/travel.gif" alt="world gif" class="gif">
+            <h3>Bon voyage!</h3>
+          </div>
+
         </div>
         <div class="box">
           <div class="item row-inline">
@@ -52,14 +58,11 @@
           <div class="bottom center relative-position">
             <button class="new-list-button create-button">Create New Itinerary List</button>
           </div>
-
         </div>
-
       </div>
+
       <div data-view="new-list" class="hidden">
-
         <div class="list">
-
           <section class="delete-container">
             <div class="row center ">
               <h2 class="margin-top">Delete Itinerary</h2>
@@ -82,7 +85,6 @@
           <div class="row listing-title margin-top center">
             <h2 class="title-new">Create New Itinerary List</h2>
           </div>
-
 
           <form class="row column center form">
             <div class="margin-auto">
@@ -112,37 +114,6 @@
                   <option value="usd">USD</option>
                 </select>
               </div>
-              <!-- <div class="margin-small-input margin-top">
-                <label for="country" class="font-label">Country</label>
-                <input list="country" name="country" id="countries" class="small-input font-label">
-                <datalist id="country">
-                  <option value="Australia">
-                  <option value="Austria">
-                  <option value="Belgium">
-                  <option value="Croatia">
-                  <option value="Cyprus">
-                  <option value="Estonia">
-                  <option value="Finland">
-                  <option value="France">
-                  <option value="Germany">
-                  <option value="Greece">
-                  <option value="Ireland">
-                  <option value="Italy">
-                  <option value="Latvia">
-                  <option value="Lithuania">
-                  <option value="Luxembourg">
-                  <option value="Malta">
-                  <option value="Netherlands">
-                  <option value="New Zealand">
-                  <option value="Norther Ireland">
-                  <option value="Portugal">
-                  <option value="Scotland">
-                  <option value="Slovakia">
-                  <option value="Slovenia">
-                  <option value="Spain">
-                  <option value="Wales">
-                </datalist>
-              </div>-->
             </div>
 
             <input type="text" id="location" class="input-size font-label" name="location" placeholder="Location"
@@ -158,16 +129,13 @@
                 <button class="new-list-button final-create">Create New Itinerary List</button>
               </div>
             </div>
-
           </form>
 
         </div>
       </div>
-
     </div>
   </main>
   <script src="js/data.js"></script>
   <script src="js/main.js"></script>
 </body>
-
 </html>

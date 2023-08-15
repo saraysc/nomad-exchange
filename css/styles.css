@@ -229,11 +229,6 @@ button {
   cursor: pointer;
 }
 
-.notes-padding {
-  padding-top: 15px;
-  padding-bottom: 50px;
-}
-
 .subtitle {
   width: 120px;
 }
@@ -264,4 +259,19 @@ button {
   height: 250px;
   z-index: 100;
   opacity: 0.75;
+  margin: auto;
+}
+
+.display-none {
+  display: none;
+}
+
+.display-unset {
+  display: unset;
+}
+
+.intro-text {
+  width: 500px;
+  text-align: center;
+  margin: auto;
 }

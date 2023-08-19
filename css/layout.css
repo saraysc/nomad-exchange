@@ -3,7 +3,10 @@
   background-color: white;
   color: #0e2fa4;
   height: 50px;
+  top: 0;
   font-family: "Shadows Into Light Two", cursive;
+  overflow: hidden;
+  border-bottom: 1px solid #f0f0f0;
 }
 
 .header-text-box {

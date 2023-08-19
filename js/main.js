@@ -1,20 +1,21 @@
 var weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
-// const heart = ['far fa-heart fa-xl icon', 'fas fa-heart fa-xl icon'];
-
-function saveInput(event) {
-  event.preventDefault();
-  var datas = event.target.elements.date.value;
-  var [year, month, day] = datas.split('-');
+function dayOfWeek(date) {
+  var [year, month, day] = date.split('-');
   var finalDate = [month, day, year].join('-');
   var convData = new Date(finalDate);
   var findDay = weekdays[convData.getDay()];
+  return findDay;
+}
+function saveInput(event) {
+  event.preventDefault();
+  var datas = event.target.elements.date.value;
   var firstMoney = event.target.elements.firstCurrency.value;
   var secondMoney = event.target.elements.secondCurrency.value;
   var priceInt = parseInt($submit.elements.price.value);
 
   var entryObject = {
-    date: finalDate,
+    date: datas,
     startTime: $submit.elements.time.value,
     endTime: $submit.elements.endTime.value,
     location: $submit.elements.location.value,
@@ -23,18 +24,17 @@ function saveInput(event) {
     price: priceInt,
     entryId: data.nextEntryId,
     currencies: (firstMoney + secondMoney).toUpperCase(),
-    weekDay: findDay,
     click: false
   };
   getRate(entryObject);
   data.nextEntryId += 1;
-  if (data.entries[finalDate]) {
-    data.entries[finalDate].push(entryObject);
+  if (data.entries[datas]) {
+    data.entries[datas].push(entryObject);
   } else {
-    data.entries[finalDate] = [entryObject];
+    data.entries[datas] = [entryObject];
   }
-  if (!data.days[finalDate]) {
-    data.days.push(finalDate);
+  if (!data.days[datas]) {
+    data.days.push(datas);
   }
   $submit.reset();
 
@@ -57,30 +57,24 @@ function viewSwap(string) {
 
 function newEntry(object) {
 
-  // if ($dateTitle.textContent === '') {
-  //   $dateTitle.className = 'date-title';
-
-  //   $dateTitle.textContent = object.date + ' ' + object.weekDay;
-  //   $dateTitle.setAttribute('current-date', object.date);
-  // }
   var date = document.createElement('p');
   for (const i in data.entries) {
-    if (data.entries[i].indexOf(object.date) > 0) {
-      date.textContent = '';
-    } else {
-      date.textContent = object.date + ' ' + object.weekDay;
-      date.className = 'date-title ';
-    }
-  }
 
-  // var box = document.createElement('div');
-  // box.append(date);
+    if (data.entries[i].indexOf(object.date) > 0) {
+      date.className = 'hidden';
+    } else {
+
+      date.textContent = object.date + ' ' + dayOfWeek(object.date);
+      date.className = 'date-title text-align-center';
+    }
+
+  }
 
   var listItem = document.createElement('li');
   listItem.className = 'list-container';
   listItem.append(date);
   var itineraryContainer = document.createElement('div');
-  itineraryContainer.className = 'list-box';
+  itineraryContainer.className = 'list-box margin-auto';
 
   var timeRow = document.createElement('div');
   timeRow.className = 'row list-margin padding-top relative-position';
@@ -88,7 +82,7 @@ function newEntry(object) {
 
   var time = document.createElement('p');
   time.textContent = 'Time';
-  time.className = 'margin-right';
+  time.className = 'subtitle bold';
   timeRow.append(time);
   itineraryContainer.append(timeRow);
 
@@ -102,7 +96,6 @@ function newEntry(object) {
   } else {
     heartIcon.className = 'fas fa-heart fa-xl icon';
   }
-  // heartIcon.className = object.click;
   heartIcon.setAttribute('icon', object.entryId);
   timeRow.append(heartIcon);
 
@@ -111,7 +104,7 @@ function newEntry(object) {
 
   var location = document.createElement('p');
   location.textContent = 'Location';
-  location.className = 'location-margin';
+  location.className = 'subtitle bold';
   locationRow.append(location);
   itineraryContainer.append(locationRow);
 
@@ -124,7 +117,7 @@ function newEntry(object) {
 
   var conversion = document.createElement('p');
   conversion.textContent = 'Total in USD';
-  conversion.className = 'currency-margin';
+  conversion.className = 'subtitle bold';
   conversionRow.append(conversion);
   itineraryContainer.append(conversionRow);
 
@@ -134,22 +127,49 @@ function newEntry(object) {
 
   var price = document.createElement('p');
   price.className = 'price-margin';
-  // object.firstCurrency.toUpperCase() + ' ' +f
   price.textContent = `${object.firstCurrency.toString().toUpperCase()} ${object.price}`;
   conversionRow.append(price);
 
   var editDelete = document.createElement('a');
   editDelete.setAttribute('href', '#');
   editDelete.innerHTML = 'Update/Delete Itinerary';
-  editDelete.className = 'edit-delete-margin font-label';
+  editDelete.className = 'edit-delete-margin relative-position font-label';
   editDelete.setAttribute('link-id', object.entryId);
   itineraryContainer.append(editDelete);
 
+  var currencyImage = document.createElement('div');
+  var image = document.createElement('img');
+  if (object.firstCurrency === 'eur') {
+    image.src = './images/euro.PNG';
+    image.alt = 'Europe';
+  } else if (object.firstCurrency === 'gbp') {
+    image.src = './images/great-britain.PNG';
+    image.alt = 'Great Britain';
+  } else if (object.firstCurrency === 'aud') {
+    image.src = './images/australia.png';
+    image.alt = 'Australia';
+  } else if (object.firstCurrency === 'nzd') {
+    image.src = './images/new-zealand.png';
+    image.alt = 'New Zealand';
+  } else if (object.firstCurrency === 'cad') {
+    image.src = './images/canada.PNG';
+    image.alt = 'Canada';
+  } else if (object.firstCurrency === 'chf') {
+    image.src = './images/swiss.PNG';
+    image.alt = 'Swiss';
+  } else if (object.firstCurrency === 'jpy') {
+    image.src = './images/japan.PNG';
+    image.alt = 'Japan';
+  }
+
+  image.className = 'currency-img relative-position';
+  currencyImage.append(image);
+  itineraryContainer.append(currencyImage);
+
   listItem.append(itineraryContainer);
-  // box.append(itineraryContainer);
   $listTitle.textContent = 'My Itinerary';
-  // $newItineraryContainer.className = 'new-itinerary-margin';
-  $createNewbtn.className = 'row edit-create-button center';
+  $introText.className = 'display-none';
+  $createNewbtn.className = 'row edit-create-button center relative-position';
   listItem.setAttribute('data-entry-id', object.entryId);
 
   return listItem;
@@ -165,44 +185,31 @@ function contentLoad(event) {
   );
   for (const i in ordered) {
     for (let m = 0; m < ordered[i].length; m++) {
+
       $list.append(newEntry(ordered[i][m]));
     }
-
   }
+
   return $list;
 }
 
-// function newItinerary(event) {
-//   viewSwap('new-list');
-//   $submit.reset();
-//   $dateInput.disabled = true;
-//   $deleteContainer.className = 'delete-container hidden';
-//   $newTitle.textContent = 'Add Itinerary';
-//   $finalCreateBtn.textContent = 'Add Itinerary';
-
-//   // viewSwap('view-list');
-// }
-
-function handleEditSubmit(event) { // handles the submit event for editing an entry
+function handleEditSubmit(event) {
   event.preventDefault();
-  // data.editing.currency = getRate(data.editing);
   data.editing.date = $submit.elements.date.value;
   data.editing.startTime = $submit.elements.time.value;
   data.editing.endTime = $submit.elements.endTime.value;
   data.editing.firstCurrency = event.target.elements.firstCurrency.value;
   data.editing.location = $submit.elements.location.value;
   data.editing.price = $submit.elements.price.value;
-  // getRate(data.editing.firstCurrency);
   var $nodeToReplace = document.querySelector(`li[data-entry-id="${data.editing.entryId}"]`);
-  $nodeToReplace.replaceWith(getRate(data.editing));
   viewSwap('view-list');
-  // data.editing = null;
+  return $nodeToReplace.replaceWith(getRate(data.editing));
 }
 
 function iconChange(object) {
   if (event.target.tagName === 'I') {
     const element = document.querySelectorAll('i');
-    for (const i in data.entries) { // loop through data entries and find matching entry id
+    for (const i in data.entries) {
       for (let m = 0; m < data.entries[i].length; m++) {
         if (data.entries[i][m].entryId === parseInt(event.target.closest('li').getAttribute('data-entry-id'))) {
 
@@ -229,7 +236,7 @@ function editDelete() {
     return;
   }
   if (event.target && event.target.tagName === 'A') {
-    for (const i in data.entries) { // loop through data entries and find matching entry id
+    for (const i in data.entries) {
       for (let m = 0; m < data.entries[i].length; m++) {
         if (data.entries[i][m].entryId === parseInt(event.target.closest('li').getAttribute('data-entry-id'))) {
           data.editing = data.entries[i][m];
@@ -237,27 +244,26 @@ function editDelete() {
       }
     }
   }
-
+  viewSwap('new-list');
   $newTitle.textContent = 'Edit/Delete Entry';
   $finalCreateBtn.textContent = 'Edit Itinerary';
   $submit.elements.date.value = data.editing.date;
-
   $submit.elements.time.value = data.editing.startTime;
   $submit.elements.endTime.value = data.editing.endTime;
   $submit.elements.firstCurrency.value = data.editing.firstCurrency;
   $submit.elements.location.value = data.editing.location;
   $submit.elements.price.value = data.editing.price;
   $deleteContainer.classList.remove('hidden');
-  viewSwap('new-list');
+
 }
 function showModal(event) {
-  myModal.className = 'modal-content center';
+  myModal.className = 'modal-content margin-auto center';
   modalBox.className = 'modal';
 }
 
 function hideModal(event) {
 
-  myModal.className = 'modal-content hidden center';
+  myModal.className = 'modal-content margin-auto hidden center';
   modalBox.className = 'modal hidden';
 }
 
@@ -279,16 +285,21 @@ function deleteItinerary(event) {
     if (entryNodeList[i].getAttribute('data-entry-id') === entryDataId.toString()) {
       entryNodeList[i].remove();
     }
-    for (const i in data.entries) { // loop through data entries and find matching entry id
+    for (const i in data.entries) {
       for (let m = 0; m < data.entries[i].length; m++) {
         if (entryDataId === data.entries[i][m].entryId) {
           data.entries[i].splice(m, 1);
         }
+
+      } if (Object.keys(data.entries[i]).length === 0) {
+        delete data.entries[i];
       }
     }
   }
-  if (data.entries.length === 0) {
-    $listTitle.textContent = 'No entries have been recorded';
+
+  if (Object.keys(data.entries).length === 0) {
+    $listTitle.textContent = 'No Listing Available';
+    $introText.className = 'row center display-unset intro-text';
   }
   hideModal();
   viewSwap('view-list');
@@ -308,19 +319,13 @@ $createButton.addEventListener('click', function (event) {
 });
 
 var $listTitle = document.querySelector('.listing-title');
-// var $dateTitle = document.querySelector('.date-title');
 
 var $list = document.querySelector('.list');
 
 var $createNewbtn = document.querySelector('.button-container');
 
-// var $newItineraryBtn = document.querySelector('.new-itinerary');
-// $newItineraryBtn.addEventListener('click', newItinerary);
-
 var $newTitle = document.querySelector('.title-new');
 var $finalCreateBtn = document.querySelector('.final-create');
-
-// var $newItineraryContainer = document.querySelector('.new-itinerary-margin');
 
 var $dateInput = document.getElementById('date');
 
@@ -355,12 +360,14 @@ function getRate(entryObject) {
     data.rates = xhr.response.rates[data.currencyRate].rate;
     entryObject.totalUsd = data.rates * entryObject.price;
     var renderedEntry = newEntry(entryObject);
-    $list.prepend(renderedEntry);
+    $list.append(renderedEntry);
   }
   xhr.addEventListener('load', onLoad);
 
   xhr.send();
 }
+
+var $introText = document.querySelector('.display-unset');
 
 var $confirmDelete = document.querySelector('.confirm-delete');
 $confirmDelete.addEventListener('click', deleteItinerary);

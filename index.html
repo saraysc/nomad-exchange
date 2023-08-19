@@ -3,14 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AJAX Project</title>
-  <link rel="icon" href="images/favicon.ico">
+  <title>Nomad Exchange</title>
+  <link rel="icon" href="images/earth-americas-solid.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Shadows+Into+Light+Two&display=swap" rel="stylesheet">
-  <link rel="icon" href="images/favicon.ico">
   <link rel="stylesheet" href="css/reset.css">
   <link rel="stylesheet" href="css/layout.css">
   <link rel="stylesheet" href="css/styles.css">
@@ -18,48 +17,52 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
-      integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
-      crossorigin="anonymous" referrerpolicy="no-referrer" />
+    integrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
+
 <body>
   <header>
     <div class="header-container">
       <div class="hidden row header-text-box">
-        <h2 class="header-title">Travel Planner</h2>
+        <h2 class="header-title">Nomad Exchange</h2>
       </div>
+
     </div>
   </header>
   <main>
-    <div class="main-container">
-      <div class="" data-view="view-list">
+    <div class="main-container center relative-position">
+      <div class="content-position" data-view="view-list">
+        <div>
+          <img src="/images/paint.png" alt="home img" class="bg-img">
+        </div>
         <div class="row center">
           <h2 class="listing-title center">No Listing Available</h2>
         </div>
+        <div class="row display-unset intro-text">
+          <div class="intro-text">
+            <h4>By being provided real-time foreign exchange rates for the the 8 'major' currency pairs,
+            you can create your travel itinerary and track your expenses in US dollars!</h4>
+            <img src="/images/travel.gif" alt="world gif" class="gif">
+            <h3>Bon voyage!</h3>
+          </div>
+
+        </div>
         <div class="box">
-          <div class="item row-direction">
-
-
+          <div class="item row-inline">
             <ul class="list">
             </ul>
-
-            <!-- <div class="new-itinerary-margin hidden">
-              <button class="new-list-button new-itinerary">New Itinerary</button>
-            </div> -->
           </div>
         </div>
-        <div class="button-container row">
-          <div class="bottom">
+        <div class="button-container center relative-position row">
+          <div class="bottom center relative-position">
             <button class="new-list-button create-button">Create New Itinerary List</button>
           </div>
-
         </div>
-
       </div>
+
       <div data-view="new-list" class="hidden">
-
-
         <div class="list">
-
           <section class="delete-container">
             <div class="row center ">
               <h2 class="margin-top">Delete Itinerary</h2>
@@ -70,87 +73,66 @@
           </section>
 
           <div class="modal hidden">
-            <div class="modal-content hidden">
+            <div class="modal-content margin-auto hidden">
               <div class="text-align-center">Are you sure you want to delete this itinerary?</div>
               <div class="row space-around margin-top">
-                <input type="button" value="CANCEL" class="modal-button gray cancel-delete"></input>
+                <button type="button" class="modal-button gray cancel-delete">CANCEL</button>
                 <button class=" modal-button orange confirm-delete">DELETE</button>
               </div>
             </div>
           </div>
 
-
           <div class="row listing-title margin-top center">
             <h2 class="title-new">Create New Itinerary List</h2>
           </div>
 
-
-
-          <form class="row column center margin-top form">
-            <div class="margin-small-input">
-              <label for="date" class="font-label">Date</label>
-              <input type="date" id="date" class="small-input date font-label" name="date" required>
-            </div>
-            <div class="margin-small-input">
-              <label for="time" class="font-label">Time</label>
-              <input type="time" id="time" class="small-input font-label" name="time" required><span class="font-label"> To</span>
-              <input type="time" id="endTime" class="small-input font-label" name="endTime" required>
-            </div>
-            <div class="margin-small-input">
-              <label for="currency" class="font-label">Currency Exchange</label>
-              <!--<input type="text" id="weather" class="input-size font-label" name="weather" placeholder="Weather" required> -->
-              <select name="firstCurrency" class="small-input font-label" id="firstCurrency" required>
-                <option value="eur">EUR</option>
-                <option value="gbp">GBP</option>
-                <option value="aud">AUD</option>
-                <option value="nzd">NZD</option>
-              </select>
-              <span class="font-label">To</span>
-              <select name="secondCurrency" class="small-input font-label" id="secondCurrency" required>
-                <option value="usd">USD</option>
-              </select>
-            </div>
-            <input type="text" id="location" class="input-size font-label" name="location" placeholder="Location" required>
-
-            <input type="number" id="price" class="input-size font-label" name="price" placeholder="Price (Only Number)" required>
-            <div class="row center">
-              <div class="row margin-top margin-right">
-                <input type="button" value="Cancel" class="new-list-button cancel"></input>
+          <form class="row column center form">
+            <div class="margin-auto">
+              <div class="margin-small-input margin-top">
+                <label for="date" class="font-label">Date</label>
+                <input type="date" id="date" class="small-input date font-label" name="date" required>
               </div>
-              <div class="row margin-top">
+              <div class="margin-small-input margin-top">
+                <label for="time" class="font-label">Time</label>
+                <input type="time" id="time" class="small-input font-label" name="time" required><span
+                  class="font-label"> To</span>
+                <input type="time" id="endTime" class="small-input font-label" name="endTime" required>
+              </div>
+              <div class="margin-small-input margin-top">
+                <label for="currency" class="font-label">Currency Exchange</label>
+                <select name="firstCurrency" class="small-input font-label" id="firstCurrency" required>
+                  <option value="eur">EUR</option>
+                  <option value="gbp">GBP</option>
+                  <option value="aud">AUD</option>
+                  <option value="nzd">NZD</option>
+                  <option value="nzd">CAD</option>
+                  <option value="nzd">CHF</option>
+                  <option value="nzd">JPY</option>
+                </select>
+                <span class="font-label">To</span>
+                <select name="secondCurrency" class="small-input font-label" id="secondCurrency" required>
+                  <option value="usd">USD</option>
+                </select>
+              </div>
+            </div>
+
+            <input type="text" id="location" class="input-size font-label" name="location" placeholder="Location"
+              required>
+            <input type="number" step="0.01" id="price" class="input-size font-label" name="price" placeholder="Price (Only Number)"
+              required>
+
+            <div class="row center margin-button margin-top">
+              <div class="row margin-right">
+                <button type="button" class="new-list-button cancel">Cancel</button>
+              </div>
+              <div class="row">
                 <button class="new-list-button final-create">Create New Itinerary List</button>
               </div>
             </div>
-
-
           </form>
 
         </div>
       </div>
-
-
-
-      <!-- <div class="hidden" data-view="update-delete-itinerary">
-        <div class="delete-container hidden">
-          <div class="row">
-            <h2>Delete Itinerary</h2>
-          </div>
-          <div class="row">
-            <button class="add-itinerary-button">Delete Itinerary</button>
-          </div>
-        </div>
-         <div class="update-itinerary">
-           <div class="row">
-            <h2>Update Itinerary</h2>
-          </div>
-          <form class="update-form">
-          </form>
-        </div>
-        <div>
-          <button class="new-list-button">Update Itinerary</button>
-        </div>
-      </div> -->
-
     </div>
   </main>
   <script src="js/data.js"></script>

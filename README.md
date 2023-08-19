@@ -1,3 +1,3 @@
 # nomad-exchange
 
-A program where the user can create a travel itinerary and keep track of the expenses in US dollars.
+A web application for the user who wants to create a travel itinerary and check the exchange currency in US dollars.

@@ -129,6 +129,7 @@ select {
   box-shadow: 5px 5px #c4c4c4;
   font-size: 14px;
   margin-bottom: 40px;
+  margin-left: 570px;
 }
 
 .country-img {
@@ -219,6 +220,7 @@ a {
   padding-bottom: 30px;
   color: #0c1e44;
   text-shadow: 0 0 4px #fff;
+  margin-left: 700px;
 }
 
 .text-align-center {

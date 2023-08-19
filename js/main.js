@@ -65,7 +65,7 @@ function newEntry(object) {
     } else {
 
       date.textContent = object.date + ' ' + dayOfWeek(object.date);
-      date.className = 'date-title text-align-center margin-auto relative-position center';
+      date.className = 'date-title text-align-center';
     }
 
   }

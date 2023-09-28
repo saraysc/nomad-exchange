@@ -194,7 +194,7 @@ function contentLoad(event) {
 }
 
 function handleEditSubmit(event) {
-  event.preventDefault();
+  // event.preventDefault();
   data.editing.date = $submit.elements.date.value;
   data.editing.startTime = $submit.elements.time.value;
   data.editing.endTime = $submit.elements.endTime.value;

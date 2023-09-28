@@ -28,13 +28,9 @@ body {
   .small-input {
     margin-top: 20px;
   }
-
-  /* .list-container {
-    max-width: 50%;
-  } */
 }
 
-@media only screen and (max-width: 700px) and (min-width: 375px) {
+@media only screen and (max-width: 600px) and (min-width: 375px) {
   .list-box {
     max-width: 100%;
   }
@@ -55,12 +51,8 @@ body {
     min-width: 160px;
   }
 
-  .price-margin {
-    margin-bottom: 90px;
-  }
-
   .list-container {
-    max-width: 85%;
+    max-width: 100%;
     margin-left: 48px;
   }
 
@@ -70,5 +62,10 @@ body {
 
   .small-input {
     margin-top: 20px;
+  }
+
+  .currency-img {
+    max-width: 100%;
+    padding-left: 40px;
   }
 }

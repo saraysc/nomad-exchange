@@ -11,7 +11,6 @@ function saveInput(event) {
   event.preventDefault();
   var datas = event.target.elements.date.value;
   var firstMoney = event.target.elements.firstCurrency.value;
-  var secondMoney = event.target.elements.secondCurrency.value;
   var priceInt = parseInt($submit.elements.price.value);
 
   var entryObject = {
@@ -20,10 +19,9 @@ function saveInput(event) {
     endTime: $submit.elements.endTime.value,
     location: $submit.elements.location.value,
     firstCurrency: firstMoney,
-    secondCurrency: secondMoney,
     price: priceInt,
     entryId: data.nextEntryId,
-    currencies: (firstMoney + secondMoney).toUpperCase(),
+    currencies: (firstMoney + 'USD').toUpperCase(),
     click: false
   };
   getRate(entryObject);
@@ -122,7 +120,7 @@ function newEntry(object) {
   itineraryContainer.append(conversionRow);
 
   var currency2 = document.createElement('p');
-  currency2.textContent = '$' + (Number(data.rates * object.price).toFixed(2));
+  currency2.textContent = '$' + +(Number(data.rates * object.price).toFixed(2));
   conversionRow.append(currency2);
 
   var price = document.createElement('p');
@@ -201,9 +199,10 @@ function handleEditSubmit(event) {
   data.editing.firstCurrency = event.target.elements.firstCurrency.value;
   data.editing.location = $submit.elements.location.value;
   data.editing.price = $submit.elements.price.value;
+
   var $nodeToReplace = document.querySelector(`li[data-entry-id="${data.editing.entryId}"]`);
   viewSwap('view-list');
-  return $nodeToReplace.replaceWith(getRate(data.editing));
+  return $nodeToReplace.replaceWith(saveInput(data.editing));
 }
 
 function iconChange(object) {

@@ -12,16 +12,17 @@ function saveInput(event) {
   var datas = event.target.elements.date.value;
   var firstMoney = event.target.elements.firstCurrency.value;
   var priceInt = parseInt($submit.elements.price.value);
-
+  var secondMoney = event.target.elements.secondCurrency.value;
   var entryObject = {
     date: datas,
     startTime: $submit.elements.time.value,
     endTime: $submit.elements.endTime.value,
     location: $submit.elements.location.value,
     firstCurrency: firstMoney,
+    secondCurrency: secondMoney,
     price: priceInt,
     entryId: data.nextEntryId,
-    currencies: (firstMoney + 'USD').toUpperCase(),
+    currencies: (firstMoney + secondMoney).toUpperCase(),
     click: false
   };
   getRate(entryObject);
@@ -149,15 +150,6 @@ function newEntry(object) {
   } else if (object.firstCurrency === 'nzd') {
     image.src = './images/new-zealand.png';
     image.alt = 'New Zealand';
-  } else if (object.firstCurrency === 'cad') {
-    image.src = './images/canada.PNG';
-    image.alt = 'Canada';
-  } else if (object.firstCurrency === 'chf') {
-    image.src = './images/swiss.PNG';
-    image.alt = 'Swiss';
-  } else if (object.firstCurrency === 'jpy') {
-    image.src = './images/japan.PNG';
-    image.alt = 'Japan';
   }
 
   image.className = 'currency-img relative-position';

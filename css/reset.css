@@ -51,12 +51,9 @@ body {
     min-width: 160px;
   }
 
-  .price-margin {
-    margin-bottom: 90px;
-  }
-
   .list-container {
-    margin-right: 40px;
+    max-width: 100%;
+    margin-left: 48px;
   }
 
   .margin-small-input {
@@ -65,5 +62,10 @@ body {
 
   .small-input {
     margin-top: 20px;
+  }
+
+  .currency-img {
+    max-width: 100%;
+    padding-left: 40px;
   }
 }

@@ -44,7 +44,7 @@ body {
 }
 
 .button-container {
-  height: 15vh;
+  height: 60vh;
 }
 
 .edit-create-button {
@@ -123,13 +123,13 @@ select {
 }
 
 .list-box {
-  width: 500px;
+  width: 540px;
   height: 150px;
   background-color: white;
   box-shadow: 5px 5px #c4c4c4;
   font-size: 14px;
   margin-bottom: 40px;
-  margin-left: 570px;
+  padding-left: 20px;
 }
 
 .country-img {
@@ -215,12 +215,13 @@ a {
 }
 
 .date-title {
-  width: 120px;
+  width: 130px;
   font-weight: bold;
   padding-bottom: 30px;
   color: #0c1e44;
   text-shadow: 0 0 4px #fff;
-  margin-left: 700px;
+  padding-right: 35px;
+  margin: auto;
 }
 
 .text-align-center {

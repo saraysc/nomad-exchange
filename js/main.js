@@ -11,9 +11,8 @@ function saveInput(event) {
   event.preventDefault();
   var datas = event.target.elements.date.value;
   var firstMoney = event.target.elements.firstCurrency.value;
-  var secondMoney = event.target.elements.secondCurrency.value;
   var priceInt = parseInt($submit.elements.price.value);
-
+  var secondMoney = event.target.elements.secondCurrency.value;
   var entryObject = {
     date: datas,
     startTime: $submit.elements.time.value,
@@ -122,7 +121,7 @@ function newEntry(object) {
   itineraryContainer.append(conversionRow);
 
   var currency2 = document.createElement('p');
-  currency2.textContent = '$' + (Number(data.rates * object.price).toFixed(2));
+  currency2.textContent = '$' + +(Number(data.rates * object.price).toFixed(2));
   conversionRow.append(currency2);
 
   var price = document.createElement('p');
@@ -151,15 +150,6 @@ function newEntry(object) {
   } else if (object.firstCurrency === 'nzd') {
     image.src = './images/new-zealand.png';
     image.alt = 'New Zealand';
-  } else if (object.firstCurrency === 'cad') {
-    image.src = './images/canada.PNG';
-    image.alt = 'Canada';
-  } else if (object.firstCurrency === 'chf') {
-    image.src = './images/swiss.PNG';
-    image.alt = 'Swiss';
-  } else if (object.firstCurrency === 'jpy') {
-    image.src = './images/japan.PNG';
-    image.alt = 'Japan';
   }
 
   image.className = 'currency-img relative-position';
@@ -194,16 +184,17 @@ function contentLoad(event) {
 }
 
 function handleEditSubmit(event) {
-  event.preventDefault();
+  // event.preventDefault();
   data.editing.date = $submit.elements.date.value;
   data.editing.startTime = $submit.elements.time.value;
   data.editing.endTime = $submit.elements.endTime.value;
   data.editing.firstCurrency = event.target.elements.firstCurrency.value;
   data.editing.location = $submit.elements.location.value;
   data.editing.price = $submit.elements.price.value;
+
   var $nodeToReplace = document.querySelector(`li[data-entry-id="${data.editing.entryId}"]`);
   viewSwap('view-list');
-  return $nodeToReplace.replaceWith(getRate(data.editing));
+  return $nodeToReplace.replaceWith(saveInput(data.editing));
 }
 
 function iconChange(object) {
